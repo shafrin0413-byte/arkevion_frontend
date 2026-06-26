@@ -10,10 +10,14 @@ const reasons = [
 ];
 
 const features = [
-  'Transparent communication', 'Agile development',
-  'Modern tech stack',         'Performance optimized',
-  'SEO friendly',              'Mobile-first approach',
-  'Scalable architecture',     'Ongoing maintenance',
+  'Expert Development Team',
+  'Modern Technologies',
+  'Responsive Design',
+  'Secure & Reliable Solutions',
+  'Fast Project Delivery',
+  'High Performance',
+  'User-Friendly Experience',
+  'Ongoing Support',
 ];
 
 const ease = [0.25, 0.46, 0.45, 0.94];
@@ -60,8 +64,7 @@ export default function WhyChooseUs() {
               transition={{ duration: 0.4, delay: 0.14, ease }}
               className="text-gray-400 text-sm leading-relaxed mb-8 max-w-md"
             >
-              We don't just build — we partner. Every engagement is backed by transparent
-              communication, technical excellence, and a commitment to your success.
+              We build reliable digital solutions that help businesses grow. From planning to deployment, we focus on quality, performance, and long-term support to ensure your project succeeds.
             </m.p>
 
             {/* Checklist — single fade-in block, no per-item stagger */}

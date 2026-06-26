@@ -22,9 +22,7 @@ export default function InstagramServiceGallery({
 
   const activeImage = images[activeIndex];
 
-  const showNextImage = () => {
-    setActiveIndex((current) => (current + 1) % images.length);
-  };
+  const showNextImage = () => setActiveIndex((current) => (current + 1) % images.length);
 
   const handleKeyDown = (event) => {
     if (event.key === 'ArrowRight' || event.key === 'Enter' || event.key === ' ') {
@@ -43,42 +41,55 @@ export default function InstagramServiceGallery({
         type="button"
         onClick={showNextImage}
         onKeyDown={handleKeyDown}
-        className="group relative block aspect-[4/5] w-full overflow-visible rounded-2xl text-left focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-100 sm:aspect-[5/4]"
+        className="group relative block w-full overflow-visible rounded-2xl text-left focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-100"
+        style={{ aspectRatio: '16 / 9' }}
         aria-describedby={captionId}
         aria-label={`Show next ${title} image`}
       >
+        {/* Stack layers behind */}
         {showStack && visibleStack.slice(1).reverse().map((image, stackIndex) => {
           const depth = stackIndex + 1;
           return (
             <div
               key={`${image.src}-${activeIndex}-${depth}`}
-              className="absolute inset-0 overflow-hidden rounded-2xl border border-white bg-gray-100 shadow-lg transition-all duration-500 ease-out"
+              className="absolute inset-0 overflow-hidden rounded-2xl border border-white shadow-lg transition-all duration-500 ease-out"
               style={{
-                transform: `translate(${depth * 10}px, ${depth * 10}px) scale(${1 - depth * 0.045})`,
-                opacity: 0.42 - depth * 0.1,
+                transform: `translate(${depth * 8}px, ${depth * 8}px) scale(${1 - depth * 0.04})`,
+                opacity: 0.35 - depth * 0.08,
                 zIndex: depth,
+                background: '#0f172a',
               }}
             >
-              <img src={image.src} alt="" className="h-full w-full object-cover" aria-hidden="true" />
+              <img
+                src={image.src}
+                alt=""
+                aria-hidden="true"
+                className="h-full w-full object-contain"
+                style={{ background: '#0f172a' }}
+              />
             </div>
           );
         })}
 
+        {/* Active image */}
         <div
           key={activeImage.src}
-          className="absolute inset-0 z-10 overflow-hidden rounded-2xl border border-white bg-gray-100 shadow-2xl transition-all duration-500 ease-out animate-[galleryFadeIn_420ms_ease-out]"
+          className="absolute inset-0 z-10 overflow-hidden rounded-2xl border border-white/10 shadow-2xl transition-shadow duration-500 ease-out animate-[galleryFadeIn_420ms_ease-out] group-hover:shadow-[0_24px_56px_rgba(15,23,42,0.28)]"
+          style={{ background: '#0f172a' }}
         >
           <img
             src={activeImage.src}
             alt={activeImage.alt || activeImage.caption}
-            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.025]"
+            className="h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            style={{ background: '#0f172a' }}
           />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/45 to-transparent" />
+
+          {/* Progress bars */}
           <div className="absolute left-3 top-3 flex gap-1.5">
             {images.map((image, index) => (
               <span
                 key={`${image.src}-story-${index}`}
-                className="h-1 w-8 rounded-full bg-white/35 shadow-sm"
+                className="h-1 w-8 rounded-full bg-white/30 shadow-sm"
               >
                 <span
                   className="block h-full rounded-full bg-white transition-all duration-300"
@@ -87,14 +98,21 @@ export default function InstagramServiceGallery({
               </span>
             ))}
           </div>
+
+          {/* Counter */}
           <div className="absolute right-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[11px] font-bold text-gray-700 shadow-sm backdrop-blur">
             {activeIndex + 1}/{images.length}
           </div>
         </div>
       </button>
 
+      {/* Caption + dot nav */}
       <div className="mt-4 px-1">
-        <p id={captionId} className="min-h-[2.75rem] text-sm font-bold leading-snug text-charcoal sm:min-h-[3rem] sm:text-base" aria-live="polite">
+        <p
+          id={captionId}
+          className="min-h-[2.5rem] text-sm font-bold leading-snug text-charcoal sm:text-base"
+          aria-live="polite"
+        >
           {activeImage.caption}
         </p>
         <div className="mt-3 flex gap-1.5">

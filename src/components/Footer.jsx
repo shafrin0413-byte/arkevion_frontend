@@ -22,7 +22,7 @@ const quickLinks = [
 
 const socials = [
   { icon: Linkedin,  href: 'https://www.linkedin.com/company/arkevion-technology/', label: 'LinkedIn'  },
-  { icon: Instagram, href: 'https://www.instagram.com/arkeviontech.official/',  label: 'Instagram' },
+  { icon: Instagram, href: 'https://www.instagram.com/arkeviontech.official/',      label: 'Instagram' },
 ];
 
 const stagger = {
@@ -48,8 +48,8 @@ export default function Footer() {
           viewport={{ once: true }}
           className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-4 lg:gap-12"
         >
-          {/* Brand */}
-          <m.div variants={fadeUp}>
+          {/* Brand — shifted up */}
+          <m.div variants={fadeUp} className="-mt-8">
             <Link to="/" className="mb-0 flex items-center">
               <img
                 src="/Arkevion_logo.png"
@@ -57,7 +57,9 @@ export default function Footer() {
                 className="h-24 w-auto brightness-0 invert sm:h-28 lg:h-32"
               />
             </Link>
-            <p className="-mt-4 mb-5 text-[0.8125rem] leading-relaxed text-gray-400 sm:-mt-5 lg:-mt-6">Arkevion Technology builds modern websites, custom software, AI automation, UI/UX systems, and digital growth solutions for businesses ready to move beyond limits.</p>
+            <p className="-mt-3 mb-5 text-[0.8125rem] leading-relaxed text-gray-400">
+              Arkevion Technology builds modern websites, custom software, AI automation, UI/UX systems, and digital growth solutions for businesses ready to move beyond limits.
+            </p>
             <div className="flex gap-2.5">
               {socials.map(({ icon: Icon, href, label }) => (
                 <a
@@ -151,13 +153,23 @@ export default function Footer() {
                 <p className="text-xs font-semibold text-teal-400 group-hover:text-teal-300 transition-colors">Chat with us</p>
               </div>
             </a>
+
+            {/* MSME Certificate */}
+            <div className="mt-3 pl-8">
+              <img
+                src="/msme.png"
+                alt="MSME Certified"
+                title="MSME Certified Business"
+                className="h-36 w-auto object-contain brightness-0 invert opacity-95 hover:opacity-100 transition-opacity duration-200"
+              />
+            </div>
           </m.div>
         </m.div>
       </div>
 
       {/* Bottom bar */}
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)' }}>
-        <div className="container-pad py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="container-pad py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-500">
             &copy; {new Date().getFullYear()} Arkevion Technology. All rights reserved.
           </p>
@@ -170,4 +182,3 @@ export default function Footer() {
     </footer>
   );
 }
-

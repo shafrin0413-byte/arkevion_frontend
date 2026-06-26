@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/Services';
 import ServiceDetail from './pages/ServiceDetail';
+import ServiceLandingPage from './pages/ServiceLandingPage';
 import WhyUs from './pages/WhyUs';
 import Internship from './pages/Internship';
 import Testimonials from './pages/Testimonials';
@@ -159,8 +160,9 @@ export default function App() {
               <Routes location={location}>
                 <Route path="/"             element={<Home />}         />
                 <Route path="/about"        element={<About />}        />
-                <Route path="/services"          element={<Services />}       />
-                <Route path="/services/:slug"     element={<ServiceDetail />}  />
+                <Route path="/services"                          element={<Services />}            />
+                <Route path="/services/landing/:serviceSlug"     element={<ServiceLandingPage />}  />
+                <Route path="/services/:slug"                    element={<ServiceDetail />}       />
                 <Route path="/why-us"       element={<WhyUs />}        />
                 <Route path="/internship"   element={<Internship />}   />
                 <Route path="/testimonials" element={<Testimonials />} />

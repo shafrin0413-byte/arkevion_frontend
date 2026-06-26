@@ -7,7 +7,12 @@ export const chatbotQuestions = [
   {
     question: 'Services',
     keywords: ['services', 'solutions', 'software', 'development'],
-    answer: 'Our services include custom software development, web development, mobile app development, AI automation, UI/UX design, digital marketing, and IT consulting.',
+    answer: 'Our services include custom software development, web development, mobile app development, AI automation, UI/UX design, digital marketing, E-Com Websites, and IT consulting.',
+  },
+  {
+    question: 'E-Commerce Development',
+    keywords: ['ecommerce', 'e-commerce', 'online store', 'shop', 'shopping', 'store', 'sell online'],
+    answer: 'We build full-featured e-commerce websites and mobile apps with product management, secure checkout, payment gateway integration, order tracking, and admin dashboards — tailored for your business.',
   },
   {
     question: 'Internship domains',

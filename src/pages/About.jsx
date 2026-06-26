@@ -9,18 +9,19 @@ import PageHeroBanner from '../components/ui/PageHeroBanner';
 const ease = [0.25, 0.46, 0.45, 0.94];
 const vp   = { once: true, amount: 0.15 };
 const profileImages = ['/were/hr1.jpg', '/were/hr2.jpg', '/were/hr3.jpg', '/were/hr4.jpg'];
+
 const aboutHighlights = [
-  { Icon: Target, title: 'Mission', body: 'To deliver innovative digital solutions that empower businesses to grow, operate smarter, and lead confidently.' },
-  { Icon: Eye, title: 'Vision', body: 'To become the most trusted technology partner for ambitious businesses across India and beyond.' },
+  { Icon: Eye, title: 'Our Vision', body: 'To become a globally recognized technology company that drives innovation, empowers businesses, and creates opportunities through cutting-edge digital solutions, continuous learning, and professional excellence.' },
+  { Icon: Target, title: 'Our Mission', body: 'Our mission is to deliver innovative, reliable, and high-quality technology solutions while empowering businesses through digital transformation. We are committed to fostering continuous learning, supporting students with industry-focused training and internship opportunities, and maintaining the highest standards of quality, integrity, and customer satisfaction.' },
 ];
 
 const values = [
-  { Icon: Lightbulb, title: 'Innovation', body: 'We turn bold ideas into useful, lasting products.', color: '#0891b2' },
-  { Icon: ShieldCheck, title: 'Integrity', body: 'We work with clarity, honesty, and genuine care.', color: '#0d9488' },
-  { Icon: Award, title: 'Excellence', body: 'We polish every detail that makes a product stand out.', color: '#7c3aed' },
-  { Icon: Sparkles, title: 'Modern Thinking', body: 'We keep solutions practical, current, and ready to scale.', color: '#2563eb' },
-  { Icon: Handshake, title: 'Customer Success', body: 'We stay close to client goals from first call to launch.', color: '#16a34a' },
-  { Icon: Users, title: 'Collaboration', body: 'We build with open communication and shared ownership.', color: '#ea580c' },
+  { Icon: Lightbulb,  title: 'Innovation',      body: 'We turn bold ideas into useful, lasting products.',             color: '#0891b2' },
+  { Icon: ShieldCheck,title: 'Integrity',        body: 'We work with clarity, honesty, and genuine care.',             color: '#0d9488' },
+  { Icon: Award,      title: 'Excellence',       body: 'We polish every detail that makes a product stand out.',       color: '#7c3aed' },
+  { Icon: Sparkles,   title: 'Modern Thinking',  body: 'We keep solutions practical, current, and ready to scale.',    color: '#2563eb' },
+  { Icon: Handshake,  title: 'Customer Success', body: 'We stay close to client goals from first call to launch.',     color: '#16a34a' },
+  { Icon: Users,      title: 'Collaboration',    body: 'We build with open communication and shared ownership.',       color: '#ea580c' },
 ];
 
 export default function About() {
@@ -49,8 +50,8 @@ export default function About() {
         <div className="container-pad py-8 grid grid-cols-3">
           {[
             { Icon: Calendar,  val: '2+',   label: 'Years'    },
-            { Icon: Briefcase, val: '50+', label: 'Projects' },
-            { Icon: Users,     val: '100+',  label: 'Clients'  },
+            { Icon: Briefcase, val: '50+',  label: 'Projects' },
+            { Icon: Users,     val: '100+', label: 'Clients'  },
           ].map(({ Icon, val, label }, i) => (
             <m.div
               key={label}
@@ -74,45 +75,46 @@ export default function About() {
       <section className="py-10 md:py-14 bg-white">
         <div className="container-pad">
           <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
-          <m.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={vp} transition={{ duration: 0.55, ease }}>
-            <span className="eyebrow"><Info size={11} /> Who We Are</span>
-            <h2 className="section-title mt-4 mb-6">
-              A team that builds<br /><span className="text-gradient">what matters.</span>
-            </h2>
-            <p className="text-gray-400 text-sm leading-relaxed mb-4">
-              Arkevion Technology partners with startups, local businesses, institutions, and growing teams to turn ideas into reliable digital products.
-            </p>
-            <p className="text-gray-400 text-sm leading-relaxed mb-7">
-              We combine brand clarity, clean design, modern engineering, automation thinking, and marketing execution to build solutions that are useful from day one.
-            </p>
-            <div className="mb-7 flex items-center">
-              {profileImages.map((src, i) => (
-                <img
-                  key={src}
-                  src={src}
-                  alt={`Arkevion team member ${i + 1}`}
-                  className="-mr-3 h-11 w-11 rounded-full border-2 border-white object-cover shadow-sm"
-                />
-              ))}
-              <span className="ml-5 text-xs font-semibold uppercase tracking-wider text-gray-400">Our core team</span>
-            </div>
-            <Link to="/contact" className="btn-outline text-sm">
-              Work with us <ArrowRight size={14} />
-            </Link>
-          </m.div>
+            <m.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={vp} transition={{ duration: 0.55, ease }}>
+              <span className="eyebrow"><Info size={11} /> About Arkevion Technology</span>
+              <h2 className="section-title mt-4 mb-6">
+                A team that builds<br /><span className="text-gradient">what matters.</span>
+              </h2>
+              <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                At Arkevion Technology, we believe that technology has the power to transform ideas into reality. Our passionate team specializes in creating innovative digital solutions that solve real-world challenges and drive meaningful business growth.
+              </p>
+              <p className="text-gray-400 text-sm leading-relaxed mb-7">
+                We collaborate with businesses, startups, educational institutions, and individuals to deliver customized technology solutions tailored to their unique needs. By combining creativity, technical expertise, and strategic thinking, we help our clients achieve long-term success in the digital world.
+              </p>
+              <div className="mb-7 flex items-center">
+                {profileImages.map((src, i) => (
+                  <img
+                    key={src}
+                    src={src}
+                    alt={`Arkevion team member ${i + 1}`}
+                    className="-mr-3 h-11 w-11 rounded-full border-2 border-white object-cover shadow-sm"
+                  />
+                ))}
+                <span className="ml-5 text-xs font-semibold uppercase tracking-wider text-gray-400">Our core team</span>
+              </div>
+              <Link to="/contact" className="btn-outline text-sm">
+                Work with us <ArrowRight size={14} />
+              </Link>
+            </m.div>
 
-          <m.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={vp} transition={{ duration: 0.55, delay: 0.1, ease }}>
-            <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
-              <img
-                src="/about.png"
-                alt="Arkevion technology team workspace"
-                className="h-64 w-full object-cover sm:h-80 lg:h-[360px]"
-                style={{ objectPosition: 'center top' }}
-              />
-            </div>
-          </m.div>
+            <m.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={vp} transition={{ duration: 0.55, delay: 0.1, ease }}>
+              <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+                <img
+                  src="/about.png"
+                  alt="Arkevion technology team workspace"
+                  className="h-64 w-full object-cover sm:h-80 lg:h-[360px]"
+                  style={{ objectPosition: 'center top' }}
+                />
+              </div>
+            </m.div>
           </div>
 
+          {/* Vision & Mission cards */}
           <div className="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-4">
             {aboutHighlights.map(({ Icon, title, body }) => (
               <div key={title} className="glass-card p-5 group cursor-default">
