@@ -8,18 +8,32 @@ export default function ProtectedRoute({ role }) {
 
   if (loading) {
     return (
-      <div className="ark-login-shell">
-        <div className="ark-login-card">Checking your session...</div>
+      <div className="mob-shell mob-shell--loading">
+        <div className="mob-loader">
+          <span className="mob-loader__ring" />
+          <p>Checking session…</p>
+        </div>
       </div>
     );
   }
 
   if (!isAuthenticated) {
-    return <Navigate to={role === 'admin' ? '/admin/login' : '/student/login'} replace state={{ from: location }} />;
+    return (
+      <Navigate
+        to={role === 'admin' ? '/admin/login' : '/student/login'}
+        replace
+        state={{ from: location }}
+      />
+    );
   }
 
   if (role && user.role !== role) {
-    return <Navigate to={user.role === 'admin' ? '/admin/dashboard' : '/student/dashboard'} replace />;
+    return (
+      <Navigate
+        to={user.role === 'admin' ? '/admin/dashboard' : '/student/dashboard'}
+        replace
+      />
+    );
   }
 
   return <Outlet />;

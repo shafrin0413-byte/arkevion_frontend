@@ -24,6 +24,16 @@ import AdminDashboard from './pages/dashboard/AdminDashboard';
 
 const WHATSAPP_NUMBER = '918838749824';
 
+/* Routes where the website shell (Navbar/Footer/etc.) must be hidden */
+const APP_SHELL_ROUTES = [
+  '/student/dashboard',
+  '/admin/dashboard',
+];
+
+function isAppShellRoute(pathname) {
+  return APP_SHELL_ROUTES.some(r => pathname.startsWith(r));
+}
+
 function WhatsAppButton() {
   return (
     <a
@@ -76,8 +86,6 @@ function SplashScreen() {
   );
 }
 
-
-
 function RouteLoader() {
   return (
     <m.div
@@ -108,9 +116,11 @@ function RouteLoader() {
 
 export default function App() {
   const location = useLocation();
-  const [splash, setSplash] = useState(true);
+  const [splash, setSplash]             = useState(true);
   const [routeLoading, setRouteLoading] = useState(false);
   const isFirst = useRef(true);
+
+  const appShell = isAppShellRoute(location.pathname);
 
   useEffect(() => {
     const t = setTimeout(() => setSplash(false), 1200);
@@ -124,29 +134,54 @@ export default function App() {
     return () => clearTimeout(t);
   }, [location.pathname]);
 
-  /* Lenis — single global instance, desktop only */
+  /* Lenis — desktop only, not for app-shell routes */
   useEffect(() => {
+    if (appShell) return;
     if (window.matchMedia('(pointer: coarse)').matches) return;
     const lenis = new Lenis({
       duration: 0.75,
-      easing: t => 1 - Math.pow(1 - t, 3), /* ease-out cubic — snappier */
+      easing: t => 1 - Math.pow(1 - t, 3),
       smoothWheel: true,
       wheelMultiplier: 1,
-      touchMultiplier: 0, /* let mobile use native scroll */
+      touchMultiplier: 0,
     });
     let id;
     const raf = time => { lenis.raf(time); id = requestAnimationFrame(raf); };
     id = requestAnimationFrame(raf);
     return () => { cancelAnimationFrame(id); lenis.destroy(); };
-  }, []);
+  }, [appShell]);
 
-  /* instant scroll-to-top on route change */
   const prev = useRef(location.pathname);
   useEffect(() => {
     if (prev.current === location.pathname) return;
     prev.current = location.pathname;
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, [location.pathname]);
+
+  /* All routes — dashboard routes rendered outside website shell */
+  const dashboardRoutes = (
+    <>
+      <Route element={<ProtectedRoute role="student" />}>
+        <Route path="/student/dashboard" element={<StudentDashboard />} />
+      </Route>
+      <Route element={<ProtectedRoute role="admin" />}>
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+      </Route>
+    </>
+  );
+
+  if (appShell) {
+    return (
+      <LazyMotion features={domAnimation} strict>
+        <AnimatePresence>{splash && <SplashScreen />}</AnimatePresence>
+        {!splash && (
+          <Routes location={location}>
+            {dashboardRoutes}
+          </Routes>
+        )}
+      </LazyMotion>
+    );
+  }
 
   return (
     <LazyMotion features={domAnimation} strict>
@@ -158,27 +193,22 @@ export default function App() {
             <Navbar />
             <main className="site-main relative block min-h-[calc(100svh-4rem)] overflow-x-hidden bg-white sm:min-h-[calc(100svh-72px)] lg:min-h-[calc(100svh-5rem)]">
               <Routes location={location}>
-                <Route path="/"             element={<Home />}         />
-                <Route path="/about"        element={<About />}        />
-                <Route path="/services"                          element={<Services />}            />
-                <Route path="/services/landing/:serviceSlug"     element={<ServiceLandingPage />}  />
-                <Route path="/services/:slug"                    element={<ServiceDetail />}       />
-                <Route path="/why-us"       element={<WhyUs />}        />
-                <Route path="/internship"   element={<Internship />}   />
-                <Route path="/testimonials" element={<Testimonials />} />
-                <Route path="/portfolio"    element={<Portfolio />}    />
-                <Route path="/contact"      element={<Contact />}      />
-                <Route path="/clients"      element={<OurClients />}   />
-                <Route path="/clients/:slug" element={<ClientDetail />} />
-                <Route path="/student/login" element={<LoginPage role="student" />} />
-                <Route path="/admin/login" element={<LoginPage role="admin" />} />
-                <Route element={<ProtectedRoute role="student" />}>
-                  <Route path="/student/dashboard" element={<StudentDashboard />} />
-                </Route>
-                <Route element={<ProtectedRoute role="admin" />}>
-                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                </Route>
-                <Route path="*"             element={<Home />}         />
+                <Route path="/"                                  element={<Home />}              />
+                <Route path="/about"                             element={<About />}             />
+                <Route path="/services"                          element={<Services />}          />
+                <Route path="/services/landing/:serviceSlug"     element={<ServiceLandingPage />}/>
+                <Route path="/services/:slug"                    element={<ServiceDetail />}     />
+                <Route path="/why-us"                            element={<WhyUs />}             />
+                <Route path="/internship"                        element={<Internship />}        />
+                <Route path="/testimonials"                      element={<Testimonials />}      />
+                <Route path="/portfolio"                         element={<Portfolio />}         />
+                <Route path="/contact"                           element={<Contact />}           />
+                <Route path="/clients"                           element={<OurClients />}        />
+                <Route path="/clients/:slug"                     element={<ClientDetail />}      />
+                <Route path="/student/login"  element={<LoginPage role="student" />}            />
+                <Route path="/admin/login"    element={<LoginPage role="admin"   />}            />
+                {dashboardRoutes}
+                <Route path="*"              element={<Home />}                                 />
               </Routes>
             </main>
             <Footer />
