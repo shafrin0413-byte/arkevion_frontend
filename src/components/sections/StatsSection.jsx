@@ -3,9 +3,9 @@ import { m, useInView } from 'framer-motion';
 import { useCounter } from '../../hooks';
 
 const stats = [
-  { value: 150, suffix: '+', label: 'Projects Completed', color: '#0d9488' },
-  { value: 50,  suffix: '+', label: 'Happy Clients',      color: '#0891b2' },
-  { value: 5,   suffix: '+', label: 'Years Experience',   color: '#0d9488' },
+  { value: 2,   suffix: '+', label: 'Years Experience',   color: '#0d9488' },
+  { value: 50,  suffix: '+', label: 'Projects Completed', color: '#0891b2' },
+  { value: 100, suffix: '+', label: 'Happy Clients',      color: '#0d9488' },
   { value: 98,  suffix: '%', label: 'Client Satisfaction', color: '#0891b2' },
 ];
 

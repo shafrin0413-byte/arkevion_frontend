@@ -1,0 +1,33 @@
+{% extends "ims/base.html" %}
+{% block title %}Attendance | Arkevion{% endblock %}
+{% block content %}
+<section class="ark-dashboard ark-container">
+  {% include "ims/student/sidebar.html" %}
+  <div class="ark-panel">
+    <div class="ark-page-head">
+      <div><span class="ark-eyebrow">Daily Session</span><h1>Attendance</h1></div>
+      <span class="ark-badge {{ attendance.status }}">{{ attendance.get_status_display }}</span>
+    </div>
+    <div class="ark-grid-2">
+      <div class="ark-card">
+        <div class="ark-card-head"><h2>Today's Timer</h2><span class="ark-badge {{ attendance.status }}">{{ attendance.get_status_display }}</span></div>
+        <div class="ark-timer" data-check-in="{{ attendance.check_in_time|date:'c' }}" data-running="{% if attendance.check_in_time and not attendance.check_out_time %}true{% else %}false{% endif %}">
+          <strong id="liveTimer">00:00:00</strong>
+          <span>Live Running Timer</span>
+        </div>
+        <p><strong>Total Worked Hours:</strong> {{ attendance.worked_hours }}</p>
+        <div class="ark-button-row">
+          <form method="post" action="{% url 'check_in' %}">{% csrf_token %}<button class="ark-btn" type="submit">Check In</button></form>
+          <form method="post" action="{% url 'check_out' %}">{% csrf_token %}<button class="ark-btn ark-btn-outline" type="submit">Check Out</button></form>
+        </div>
+      </div>
+      <div class="ark-card">
+        <h2>Session Details</h2>
+        <p><strong>Check In:</strong> {{ attendance.check_in_time|time:"h:i A"|default:"-" }}</p>
+        <p><strong>Check Out:</strong> {{ attendance.check_out_time|time:"h:i A"|default:"-" }}</p>
+        <p><strong>Date:</strong> {{ attendance.date }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

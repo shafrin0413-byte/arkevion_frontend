@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { m } from 'framer-motion';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Briefcase } from 'lucide-react';
 import { fadeUp, viewport } from '../utils/animations';
 import MobileConnectionBackground from '../components/ui/MobileConnectionBackground';
 import PageHeroBanner from '../components/ui/PageHeroBanner';
@@ -58,7 +58,7 @@ export default function OurClients() {
         <MobileConnectionBackground />
         <div className="container-pad relative z-10">
           <m.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease }}>
-            <span className="eyebrow"><Sparkles size={11} /> Our Clients</span>
+            <span className="eyebrow"><Briefcase size={11} /> Our Clients</span>
           </m.div>
           <m.h1 initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.09, ease }} className="mt-5 section-title">
@@ -73,9 +73,9 @@ export default function OurClients() {
       </PageHeroBanner>
 
       {/* Client Cards */}
-      <section className="py-8 sm:py-16">
+      <section className="py-10 sm:py-18">
         <div className="container-pad">
-          <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
             {clients.map((client, i) => (
               <m.div
                 key={client.slug}
@@ -86,11 +86,11 @@ export default function OurClients() {
               >
                 <Link to={`/clients/${client.slug}`} className="block group svc-card overflow-hidden">
                   {/* Image */}
-                  <div className="relative overflow-hidden aspect-[4/3] bg-gray-50">
+                  <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden bg-gray-50 p-5">
                     <img
                       src={client.image}
                       alt={client.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="max-h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -102,6 +102,7 @@ export default function OurClients() {
                     <span className="text-[10px] font-bold uppercase tracking-widest text-teal-600 bg-teal-50 px-2 py-0.5 rounded-full">
                       {client.industry}
                     </span>
+                    <h2 className="mt-3 text-xl font-black text-charcoal">{client.name}</h2>
                     <p className="text-xs text-gray-400 mt-2 mb-3 line-clamp-2">{client.description}</p>
                     <div className="flex flex-wrap gap-1.5">
                       {client.services.slice(0, 2).map(s => (

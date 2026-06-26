@@ -1,0 +1,13 @@
+{% extends "ims/base.html" %}
+{% block content %}
+<section class="ark-dashboard ark-container">
+  {% include "ims/admin/sidebar.html" %}
+  <div class="ark-panel">
+    <span class="ark-eyebrow">Attendance Monitoring</span><h1>Attendance</h1>
+    <div class="ark-table-wrap"><table class="ark-table"><thead><tr><th>Student</th><th>Date</th><th>Check In</th><th>Check Out</th><th>Hours</th><th>Status</th></tr></thead><tbody>
+      {% for row in records %}<tr><td>{{ row.student.user.full_name }}</td><td>{{ row.date }}</td><td>{{ row.check_in_time|time:"h:i A"|default:"-" }}</td><td>{{ row.check_out_time|time:"h:i A"|default:"-" }}</td><td>{{ row.worked_hours }}</td><td><span class="ark-badge {{ row.status }}">{{ row.get_status_display }}</span></td></tr>
+      {% empty %}<tr><td colspan="6">No attendance records.</td></tr>{% endfor %}
+    </tbody></table></div>
+  </div>
+</section>
+{% endblock %}

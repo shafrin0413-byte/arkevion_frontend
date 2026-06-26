@@ -1,0 +1,5 @@
+{% extends "ims/auth_card.html" %}
+{% block title %}Admin Register | Arkevion{% endblock %}
+{% block auth_extra %}
+  <p class="ark-form-note">Already registered? <a href="{% url 'admin_login' %}">Login</a></p>
+{% endblock %}

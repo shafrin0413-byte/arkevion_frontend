@@ -27,6 +27,7 @@ export const projectsAPI = {
 
 export const testimonialsAPI = {
   getAll: () => api.get('/testimonials/'),
+  submit: (data) => api.post('/testimonials/', data),
 };
 
 export const contactAPI = {

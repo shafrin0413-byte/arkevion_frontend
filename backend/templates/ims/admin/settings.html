@@ -1,0 +1,22 @@
+{% extends "ims/base.html" %}
+{% block title %}Settings | Arkevion{% endblock %}
+{% block content %}
+<section class="ark-dashboard ark-container">
+  {% include "ims/admin/sidebar.html" %}
+  <div class="ark-panel">
+    <div><span class="ark-eyebrow">{{ user.assigned_domain.name }} Admin</span><h1>Settings</h1></div>
+    <div class="ark-grid-2">
+      <div class="ark-card">
+        <h2>Domain Settings</h2>
+        <p><strong>Assigned Domain:</strong> {{ user.assigned_domain.name }}</p>
+        <p><strong>Admin:</strong> {{ user.full_name }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+      </div>
+      <div class="ark-card">
+        <h2>Portal Preferences</h2>
+        <p class="ark-muted">Security, notification, and domain preference controls can be added here as the admin module expands.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

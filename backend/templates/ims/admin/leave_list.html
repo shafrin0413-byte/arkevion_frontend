@@ -1,0 +1,36 @@
+{% extends "ims/base.html" %}
+{% block content %}
+<section class="ark-dashboard ark-container">
+  {% include "ims/admin/sidebar.html" %}
+  <div class="ark-panel">
+    <span class="ark-eyebrow">Leave Management</span><h1>Leave Approval</h1>
+    <div class="ark-table-wrap"><table class="ark-table"><thead><tr><th>Student</th><th>Type</th><th>Dates</th><th>Status</th><th>Review</th></tr></thead><tbody>
+      {% for leave in leaves %}
+      <tr>
+        <td>{{ leave.student.user.full_name }}</td><td>{{ leave.get_leave_type_display }}</td><td>{{ leave.start_date }} to {{ leave.end_date }}</td><td><span class="ark-badge {{ leave.status }}">{{ leave.get_status_display }}</span></td>
+        <td><button class="ark-link-btn" data-modal="leave-{{ leave.pk }}">Open</button></td>
+      </tr>
+      {% empty %}<tr><td colspan="5">No leave requests.</td></tr>{% endfor %}
+    </tbody></table></div>
+    {% for leave in leaves %}
+    <div class="ark-modal" id="leave-{{ leave.pk }}" aria-hidden="true">
+      <div class="ark-modal-card">
+        <button class="ark-modal-close" data-close>&times;</button>
+        <span class="ark-eyebrow">Leave Request</span><h2>{{ leave.student.user.full_name }}</h2>
+        <p><strong>Domain:</strong> {{ leave.student.domain.name }}</p>
+        <p><strong>Leave Type:</strong> {{ leave.get_leave_type_display }}</p>
+        <p><strong>Start Date:</strong> {{ leave.start_date }}</p>
+        <p><strong>End Date:</strong> {{ leave.end_date }}</p>
+        <p><strong>Reason:</strong> {{ leave.reason }}</p>
+        {% if leave.status == "pending" %}
+          <div class="ark-modal-actions">
+            <form method="post" action="{% url 'leave_review' leave.pk 'approve' %}">{% csrf_token %}<button class="ark-btn" type="submit">Approve</button></form>
+            <form method="post" action="{% url 'leave_review' leave.pk 'reject' %}">{% csrf_token %}<button class="ark-btn ark-btn-danger" type="submit">Reject</button></form>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

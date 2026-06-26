@@ -1,0 +1,10 @@
+{% extends "ims/base.html" %}
+{% block content %}
+<section class="ark-dashboard ark-container">
+  {% include "ims/admin/sidebar.html" %}
+  <div class="ark-panel ark-narrow">
+    <span class="ark-eyebrow">Confirm Delete</span><h1>Delete {{ type }}</h1>
+    <form method="post" class="ark-card ark-form">{% csrf_token %}<p>Are you sure you want to delete <strong>{{ object }}</strong>?</p><button class="ark-btn ark-btn-danger" type="submit">Delete</button></form>
+  </div>
+</section>
+{% endblock %}

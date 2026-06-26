@@ -1,0 +1,29 @@
+{% extends "ims/base.html" %}
+{% block title %}Profile | Arkevion{% endblock %}
+{% block content %}
+<section class="ark-dashboard ark-container">
+  {% include "ims/student/sidebar.html" %}
+  <div class="ark-panel">
+    <div class="ark-page-head">
+      <div><span class="ark-eyebrow">{{ student.domain.name }} Internship</span><h1>Profile</h1></div>
+    </div>
+    <div class="ark-grid-2">
+      <form method="post" class="ark-card ark-form">
+        {% csrf_token %}
+        <h2>Edit Profile</h2>
+        {{ profile_form.non_field_errors }}
+        {% for field in profile_form %}
+          <label>{{ field.label }}{{ field }}{{ field.errors }}</label>
+        {% endfor %}
+        <button class="ark-btn" type="submit">Save Profile</button>
+      </form>
+      <div class="ark-card">
+        <h2>Internship Details</h2>
+        <p><strong>Domain:</strong> {{ student.domain.name }}</p>
+        <p><strong>Assigned Mentor:</strong> {{ mentor.full_name|default:"Not assigned" }}</p>
+        <p><strong>Status:</strong> <span class="ark-badge {% if student.is_active %}complete{% else %}hold{% endif %}">{% if student.is_active %}Active{% else %}Disabled{% endif %}</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

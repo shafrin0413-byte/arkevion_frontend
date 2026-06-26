@@ -1,0 +1,24 @@
+{% extends "ims/base.html" %}
+{% block title %}Leave Requests | Arkevion{% endblock %}
+{% block content %}
+<section class="ark-dashboard ark-container">
+  {% include "ims/student/sidebar.html" %}
+  <div class="ark-panel">
+    <div><span class="ark-eyebrow">Leave Management</span><h1>Leave Requests</h1></div>
+    <div class="ark-grid-2">
+      <form method="post" action="{% url 'submit_leave' %}" class="ark-card ark-form">
+        {% csrf_token %}
+        <h2>New Leave Request</h2>
+        {% for field in leave_form %}<label>{{ field.label }}{{ field }}{{ field.errors }}</label>{% endfor %}
+        <button class="ark-btn" type="submit">Submit Request</button>
+      </form>
+      <div class="ark-card">
+        <h2>Request Status</h2>
+        {% for leave in leaves %}
+          <div class="ark-row"><span>{{ leave.get_leave_type_display }} - {{ leave.start_date }} to {{ leave.end_date }}</span><em class="ark-badge {{ leave.status }}">{{ leave.get_status_display }}</em></div>
+        {% empty %}<p class="ark-muted">No leave requests submitted.</p>{% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

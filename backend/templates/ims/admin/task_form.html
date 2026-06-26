@@ -1,0 +1,10 @@
+{% extends "ims/base.html" %}
+{% block content %}
+<section class="ark-dashboard ark-container">
+  {% include "ims/admin/sidebar.html" %}
+  <div class="ark-panel ark-narrow">
+    <span class="ark-eyebrow">Task Management</span><h1>{{ title }}</h1>
+    <form method="post" class="ark-card ark-form">{% csrf_token %}{{ form.non_field_errors }}{% for field in form %}<label>{{ field.label }}{{ field }}{{ field.errors }}</label>{% endfor %}<button class="ark-btn" type="submit">Save Task</button></form>
+  </div>
+</section>
+{% endblock %}

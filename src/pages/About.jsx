@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { m } from 'framer-motion';
-import { Lightbulb, ShieldCheck, Sparkles, ArrowRight, Users, Briefcase, Calendar, Target, Eye, HeartHandshake, Compass } from 'lucide-react';
+import { Lightbulb, ShieldCheck, Info, ArrowRight, Users, Briefcase, Calendar, Target, Eye, Award, Sparkles, Handshake } from 'lucide-react';
 import { useLenis } from '../hooks';
 import PageTransition from '../components/ui/PageTransition';
 import MobileConnectionBackground from '../components/ui/MobileConnectionBackground';
@@ -8,6 +8,20 @@ import PageHeroBanner from '../components/ui/PageHeroBanner';
 
 const ease = [0.25, 0.46, 0.45, 0.94];
 const vp   = { once: true, amount: 0.15 };
+const profileImages = ['/were/hr1.jpg', '/were/hr2.jpg', '/were/hr3.jpg', '/were/hr4.jpg'];
+const aboutHighlights = [
+  { Icon: Target, title: 'Mission', body: 'To deliver innovative digital solutions that empower businesses to grow, operate smarter, and lead confidently.' },
+  { Icon: Eye, title: 'Vision', body: 'To become the most trusted technology partner for ambitious businesses across India and beyond.' },
+];
+
+const values = [
+  { Icon: Lightbulb, title: 'Innovation', body: 'We turn bold ideas into useful, lasting products.', color: '#0891b2' },
+  { Icon: ShieldCheck, title: 'Integrity', body: 'We work with clarity, honesty, and genuine care.', color: '#0d9488' },
+  { Icon: Award, title: 'Excellence', body: 'We polish every detail that makes a product stand out.', color: '#7c3aed' },
+  { Icon: Sparkles, title: 'Modern Thinking', body: 'We keep solutions practical, current, and ready to scale.', color: '#2563eb' },
+  { Icon: Handshake, title: 'Customer Success', body: 'We stay close to client goals from first call to launch.', color: '#16a34a' },
+  { Icon: Users, title: 'Collaboration', body: 'We build with open communication and shared ownership.', color: '#ea580c' },
+];
 
 export default function About() {
   useLenis();
@@ -19,13 +33,13 @@ export default function About() {
         <MobileConnectionBackground />
         <div className="container-pad relative z-10">
           <m.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease }}>
-            <span className="eyebrow"><Sparkles size={11} /> About Us</span>
+            <span className="eyebrow"><Info size={11} /> About Us</span>
           </m.div>
           <m.h1 initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1, ease }} className="section-title mt-4">
             Building technology<br /><span className="text-gradient">beyond the limit.</span>
           </m.h1>
           <m.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2, ease }} className="mt-4 max-w-xl text-sm leading-relaxed text-gray-500">
-            A Trichy-based team delivering clarity, speed, and dependable digital execution for businesses that want to grow.
+            Arkevion Technology is a Trichy-based technology company focused on web development, UI/UX design, software solutions, AI automation, digital marketing, and skill-building internship programs.
           </m.p>
         </div>
       </PageHeroBanner>
@@ -34,9 +48,9 @@ export default function About() {
       <section className="border-y border-gray-100 bg-white">
         <div className="container-pad py-8 grid grid-cols-3">
           {[
-            { Icon: Briefcase, val: '150+', label: 'Projects' },
-            { Icon: Users,     val: '50+',  label: 'Clients'  },
-            { Icon: Calendar,  val: '5+',   label: 'Years'    },
+            { Icon: Calendar,  val: '2+',   label: 'Years'    },
+            { Icon: Briefcase, val: '50+', label: 'Projects' },
+            { Icon: Users,     val: '100+',  label: 'Clients'  },
           ].map(({ Icon, val, label }, i) => (
             <m.div
               key={label}
@@ -57,31 +71,50 @@ export default function About() {
       </section>
 
       {/* Who We Are */}
-      <section className="py-10 md:py-24 bg-white">
-        <div className="container-pad grid gap-12 lg:grid-cols-2 lg:items-center">
+      <section className="py-10 md:py-14 bg-white">
+        <div className="container-pad">
+          <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
           <m.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={vp} transition={{ duration: 0.55, ease }}>
-            <span className="eyebrow"><Sparkles size={11} /> Who We Are</span>
+            <span className="eyebrow"><Info size={11} /> Who We Are</span>
             <h2 className="section-title mt-4 mb-6">
               A team that builds<br /><span className="text-gradient">what matters.</span>
             </h2>
             <p className="text-gray-400 text-sm leading-relaxed mb-4">
-              Arkevion Technology is a Trichy-based team building digital solutions for businesses that want clarity, speed, and dependable execution.
+              Arkevion Technology partners with startups, local businesses, institutions, and growing teams to turn ideas into reliable digital products.
             </p>
             <p className="text-gray-400 text-sm leading-relaxed mb-7">
-              We combine strategy, clean design, and modern engineering to create websites, applications, automation systems, and growth tools.
+              We combine brand clarity, clean design, modern engineering, automation thinking, and marketing execution to build solutions that are useful from day one.
             </p>
+            <div className="mb-7 flex items-center">
+              {profileImages.map((src, i) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt={`Arkevion team member ${i + 1}`}
+                  className="-mr-3 h-11 w-11 rounded-full border-2 border-white object-cover shadow-sm"
+                />
+              ))}
+              <span className="ml-5 text-xs font-semibold uppercase tracking-wider text-gray-400">Our core team</span>
+            </div>
             <Link to="/contact" className="btn-outline text-sm">
               Work with us <ArrowRight size={14} />
             </Link>
           </m.div>
 
-          <m.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={vp} transition={{ duration: 0.55, delay: 0.1, ease }} className="grid grid-cols-2 gap-3">
-            {[
-              { Icon: Target,        title: 'Mission',  body: 'To deliver innovative digital solutions that empower businesses to grow and lead in their industries.' },
-              { Icon: Eye,           title: 'Vision',   body: 'To be the most trusted technology partner for growing businesses across India and beyond.' },
-              { Icon: Compass,       title: 'Approach', body: 'We prioritize clean code, honest communication, and delivering real value at every step.' },
-              { Icon: HeartHandshake,title: 'Culture',  body: 'A collaborative team that learns continuously and ships products people actually love.' },
-            ].map(({ Icon, title, body }) => (
+          <m.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={vp} transition={{ duration: 0.55, delay: 0.1, ease }}>
+            <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+              <img
+                src="/about.png"
+                alt="Arkevion technology team workspace"
+                className="h-64 w-full object-cover sm:h-80 lg:h-[360px]"
+                style={{ objectPosition: 'center top' }}
+              />
+            </div>
+          </m.div>
+          </div>
+
+          <div className="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-4">
+            {aboutHighlights.map(({ Icon, title, body }) => (
               <div key={title} className="glass-card p-5 group cursor-default">
                 <div className="w-9 h-9 rounded-xl bg-teal-50 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300">
                   <Icon size={17} className="text-teal-600" />
@@ -90,24 +123,20 @@ export default function About() {
                 <p className="text-xs text-gray-400 leading-relaxed">{body}</p>
               </div>
             ))}
-          </m.div>
+          </div>
         </div>
       </section>
 
       {/* Values */}
-      <section className="py-10 md:py-24 bg-[#fafcfc]">
+      <section className="py-10 md:py-16 bg-[#fafcfc]">
         <div className="container-pad">
-          <m.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={vp} className="text-center mb-14">
-            <span className="eyebrow"><Sparkles size={11} /> Our Values</span>
+          <m.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={vp} className="text-center mb-10">
+            <span className="eyebrow"><Info size={11} /> Our Values</span>
             <h2 className="section-title mt-4">What drives <span className="text-gradient">us.</span></h2>
           </m.div>
 
           <div className="grid gap-3 sm:gap-5 grid-cols-2 sm:grid-cols-3">
-            {[
-              { Icon: Lightbulb,  title: 'Innovation', body: 'We turn bold ideas into useful, lasting products.',      color: '#0891b2' },
-              { Icon: ShieldCheck,title: 'Integrity',  body: 'We work with clarity, honesty, and genuine care.',       color: '#0d9488' },
-              { Icon: Sparkles,   title: 'Excellence', body: 'We polish every detail that makes a product stand out.', color: '#7c3aed' },
-            ].map(({ Icon, title, body, color }, i) => (
+            {values.map(({ Icon, title, body, color }, i) => (
               <m.div
                 key={title}
                 initial={{ opacity: 0, y: 28 }}
@@ -130,7 +159,7 @@ export default function About() {
       </section>
 
       {/* CTA */}
-      <section className="py-10 md:py-24 bg-white">
+      <section className="py-10 md:py-16 bg-white">
         <div className="container-pad">
           <m.div
             initial={{ opacity: 0, y: 20 }}

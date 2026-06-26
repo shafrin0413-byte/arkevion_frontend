@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { m, AnimatePresence } from 'framer-motion';
-import { X, ArrowUpRight } from 'lucide-react';
+import { X, ArrowUpRight, Briefcase } from 'lucide-react';
 import { useLenis } from '../hooks';
 import PageTransition from '../components/ui/PageTransition';
 import ContactCTA from '../components/sections/ContactCTA';
@@ -11,12 +11,12 @@ import MobileConnectionBackground from '../components/ui/MobileConnectionBackgro
 const categories = ['All', 'Web', 'Mobile', 'Design', 'AI'];
 
 const projects = [
-  { id: 1, title: 'E-Commerce Platform', category: 'Web', description: 'Multi-vendor platform handling 10,000+ concurrent users with real-time inventory.', result: '3x increase in conversions', technologies: ['React', 'Django', 'MySQL', 'Redis', 'AWS'], color: '#1F8A9E' },
-  { id: 2, title: 'Healthcare SaaS', category: 'Web', description: 'Patient management system with telemedicine and appointment scheduling.', result: '500+ clinics onboarded in 3 months', technologies: ['Next.js', 'Django', 'PostgreSQL'], color: '#176B7D' },
-  { id: 3, title: 'FinTech Dashboard', category: 'Design', description: 'Financial analytics dashboard making complex data actionable.', result: '65% increase in user engagement', technologies: ['Figma', 'React', 'D3.js'], color: '#2AAFCA' },
-  { id: 4, title: 'Logistics App', category: 'Mobile', description: 'Real-time package tracking with GPS and offline-first capability.', result: '200K+ downloads in 6 months', technologies: ['React Native', 'Node.js', 'MongoDB'], color: '#104E5C' },
-  { id: 5, title: 'AI Content Generator', category: 'AI', description: 'LLM-powered content creation for SEO-optimized marketing at scale.', result: '80% reduction in content time', technologies: ['Python', 'OpenAI API', 'FastAPI', 'React'], color: '#57C4DC' },
-  { id: 6, title: 'EdTech Platform', category: 'Web', description: 'Live-class platform with video streaming for 10,000+ students.', result: '10,000+ active students', technologies: ['React', 'Django', 'WebRTC', 'AWS'], color: '#09313A' },
+  { id: 1, title: 'Business Website Suite', category: 'Web', description: 'A fast, responsive company website with service pages, enquiry flows, SEO structure, and conversion-focused content.', result: 'Stronger online presence and higher enquiry quality', technologies: ['React', 'Tailwind CSS', 'SEO', 'Analytics'], color: '#1F8A9E' },
+  { id: 2, title: 'Internship Management Portal', category: 'Web', description: 'A role-based student and admin portal for attendance, tasks, leave requests, and internship workflow tracking.', result: 'Centralized internship operations for admins and students', technologies: ['Django', 'React', 'SQLite', 'Authentication'], color: '#176B7D' },
+  { id: 3, title: 'Product UI/UX System', category: 'Design', description: 'A clean interface system with reusable layouts, form states, dashboards, and mobile-first interaction patterns.', result: 'More consistent product experience across screens', technologies: ['Figma', 'Design Systems', 'Prototyping'], color: '#2AAFCA' },
+  { id: 4, title: 'Service Enquiry Automation', category: 'AI', description: 'A lightweight automation workflow for collecting project enquiries, routing leads, and speeding up follow-up communication.', result: 'Faster response time for new leads', technologies: ['Automation', 'Forms', 'WhatsApp Flow'], color: '#104E5C' },
+  { id: 5, title: 'Digital Campaign Assets', category: 'Design', description: 'Brand-aligned social media and marketing assets built around service positioning, clarity, and lead generation.', result: 'Improved campaign consistency and brand recall', technologies: ['Content Strategy', 'Visual Design', 'Analytics'], color: '#57C4DC' },
+  { id: 6, title: 'Custom Workflow Dashboard', category: 'Web', description: 'A practical internal dashboard for tracking records, actions, reports, and day-to-day business workflows.', result: 'Reduced manual tracking and cleaner reporting', technologies: ['React', 'Django', 'REST APIs'], color: '#09313A' },
 ];
 
 export default function PortfolioPage() {
@@ -32,7 +32,7 @@ export default function PortfolioPage() {
         <MobileConnectionBackground />
         <div className="container-pad relative z-10">
           <div className="mb-16">
-            <span className="text-xs font-semibold text-teal-primary uppercase tracking-widest mb-4 block">Portfolio</span>
+            <span className="eyebrow mb-4"><Briefcase size={11} /> Portfolio</span>
             <h1 className="font-display font-bold text-5xl md:text-6xl text-gray-900 leading-tight mb-10">
               Selected work
             </h1>

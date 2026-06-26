@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 import { Link, useParams, Navigate } from 'react-router-dom';
 import { m } from 'framer-motion';
-import { Bot, Code2, GraduationCap, Layers, Palette, Settings, TrendingUp, ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
+import { Bot, Code2, GraduationCap, Layers, Palette, Settings, Smartphone, TrendingUp, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { fadeUp, viewport } from '../utils/animations';
 import MobileConnectionBackground from '../components/ui/MobileConnectionBackground';
 import PageHeroBanner from '../components/ui/PageHeroBanner';
+import InstagramServiceGallery from '../components/ui/InstagramServiceGallery';
+import { getServiceGallery } from '../data/serviceGalleries';
 
 const ease = [0.25, 0.46, 0.45, 0.94];
 
@@ -73,6 +75,28 @@ const services = [
       ['Wireframe', 'Low-fidelity layouts to validate structure and flow.'],
       ['Design', 'High-fidelity visuals with your brand language.'],
       ['Handoff', 'Developer-ready Figma files with specs and assets.'],
+    ],
+  },
+  {
+    slug: 'mobile-development',
+    Icon: Smartphone,
+    color: '#0d9488',
+    title: 'Mobile Development',
+    tagline: 'Mobile apps and app-ready experiences for modern users.',
+    description: 'We design and build practical mobile experiences for Android, iOS, and progressive web apps. From booking flows and dashboards to customer apps, every screen is responsive, fast, and simple to use.',
+    features: [
+      'Android and iOS app planning',
+      'React Native / PWA development',
+      'Mobile-first UX and navigation',
+      'API integration and authentication',
+      'Push-ready product architecture',
+      'Testing, launch, and maintenance',
+    ],
+    process: [
+      ['Plan', 'We define user journeys, core features, and the right mobile approach.'],
+      ['Prototype', 'Clickable screens validate the flow before development starts.'],
+      ['Build', 'Clean mobile interfaces connected to secure backend services.'],
+      ['Launch', 'Testing, deployment guidance, and ongoing improvements.'],
     ],
   },
   {
@@ -165,6 +189,17 @@ const services = [
   },
 ];
 
+const serviceImages = {
+  'website-development': '/New folder/dg.png',
+  'full-stack-development': '/New folder/modern.png',
+  'ui-ux-design': '/New folder/UI.png',
+  'mobile-development': '/New folder/Ecom.png',
+  'digital-marketing': '/New folder/digital.png',
+  'ai-automation': '/New folder/userinter.png',
+  'software-solutions': '/New folder/Ecom.png',
+  'internship-programs': '/New folder/hel.png',
+};
+
 export default function ServiceDetail() {
   const { slug } = useParams();
   const service = services.find(s => s.slug === slug);
@@ -174,6 +209,8 @@ export default function ServiceDetail() {
   if (!service) return <Navigate to="/services" replace />;
 
   const { Icon, color, title, tagline, description, features, process } = service;
+  const image = serviceImages[slug];
+  const galleryImages = getServiceGallery(slug);
 
   return (
     <div className="w-full bg-white">
@@ -181,31 +218,47 @@ export default function ServiceDetail() {
       {/* Hero */}
       <PageHeroBanner className="bg-white py-6 sm:py-10">
         <MobileConnectionBackground />
-        <div className="container-pad relative z-10">
-          <m.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease }}>
-            <Link to="/services" className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-400 hover:text-teal-600 transition-colors mb-4">
-              <ArrowRight size={12} className="rotate-180" /> All Services
-            </Link>
-          </m.div>
+        <div className="container-pad relative z-10 grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+          <div className="pt-1 lg:pt-0">
+            <m.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease }}>
+              <Link to="/services" className="mb-4 inline-flex items-center gap-1.5 text-xs font-semibold text-gray-400 transition-colors hover:text-teal-600">
+                <ArrowRight size={12} className="rotate-180" /> All Services
+              </Link>
+            </m.div>
+            <m.div
+              initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.08, ease }}
+              className="mt-4 flex items-start gap-3"
+            >
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl"
+                style={{ background: `${color}15`, color }}>
+                <Icon size={22} />
+              </div>
+              <div>
+                <h1 className="section-title leading-tight">{title}</h1>
+                <p className="mt-0.5 text-xs font-semibold sm:text-sm" style={{ color }}>{tagline}</p>
+              </div>
+            </m.div>
+            <m.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.16, ease }}
+              className="mt-3 max-w-lg text-sm leading-relaxed text-gray-400">
+              {description}
+            </m.p>
+          </div>
           <m.div
-            initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.08, ease }}
-            className="mt-4 flex items-center gap-3"
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.55, delay: 0.22, ease }}
+            className="w-full max-w-xl justify-self-center lg:justify-self-end"
           >
-            <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
-              style={{ background: `${color}15`, color }}>
-              <Icon size={22} />
-            </div>
-            <div>
-              <h1 className="section-title leading-tight">{title}</h1>
-              <p className="text-xs sm:text-sm font-semibold mt-0.5" style={{ color }}>{tagline}</p>
-            </div>
+            {galleryImages.length ? (
+              <InstagramServiceGallery images={galleryImages} title={title} accentColor={color} />
+            ) : (
+              <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+                <img src={image} alt={title} className="h-64 w-full object-cover sm:h-80" />
+              </div>
+            )}
           </m.div>
-          <m.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.16, ease }}
-            className="mt-3 text-sm text-gray-400 max-w-lg leading-relaxed">
-            {description}
-          </m.p>
         </div>
       </PageHeroBanner>
 
@@ -216,7 +269,7 @@ export default function ServiceDetail() {
 
           {/* Features */}
           <m.div variants={fadeUp} custom={0} initial="hidden" whileInView="visible" viewport={viewport}>
-            <span className="eyebrow"><Sparkles size={10} /> What's Included</span>
+            <span className="eyebrow"><CheckCircle2 size={10} /> What's Included</span>
             <h2 className="section-title mt-4 mb-6 text-xl sm:text-2xl">
               Everything you <span className="text-gradient">need.</span>
             </h2>

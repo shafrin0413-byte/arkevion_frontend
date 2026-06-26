@@ -1,0 +1,37 @@
+{% extends "ims/base.html" %}
+{% block title %}Student Dashboard | Arkevion{% endblock %}
+{% block content %}
+<section class="ark-dashboard ark-container">
+  {% include "ims/student/sidebar.html" %}
+  <div class="ark-panel">
+    <div class="ark-page-head">
+      <div>
+        <span class="ark-eyebrow">{{ student.domain.name }} Internship</span>
+        <h1>Dashboard</h1>
+      </div>
+      <span class="ark-badge {{ attendance.status }}">{{ attendance.get_status_display }}</span>
+    </div>
+    <div class="ark-stats ark-stats-compact">
+      <div class="ark-card ark-stat-card"><strong>{{ complete_tasks }}</strong><span>Completed Tasks</span></div>
+      <div class="ark-card ark-stat-card"><strong>{{ progress_tasks }}</strong><span>In Progress</span></div>
+      <div class="ark-card ark-stat-card"><strong>{{ attendance.worked_hours }}</strong><span>Hours Today</span></div>
+    </div>
+    <div class="ark-grid-2">
+      <div class="ark-card">
+        <div class="ark-card-head"><h2>Task Progress</h2><a href="{% url 'student_courses' %}">View tasks</a></div>
+        {% for task in tasks|slice:":4" %}
+          <div class="ark-row"><span>{{ task.title }}</span><em class="ark-badge {{ task.status }}">{{ task.get_status_display }}</em></div>
+        {% empty %}<p class="ark-muted">No tasks assigned yet.</p>{% endfor %}
+      </div>
+      <div class="ark-card">
+        <div class="ark-card-head"><h2>Today's Attendance</h2><a href="{% url 'student_attendance' %}">Open</a></div>
+        <div class="ark-timer" data-check-in="{{ attendance.check_in_time|date:'c' }}" data-running="{% if attendance.check_in_time and not attendance.check_out_time %}true{% else %}false{% endif %}">
+          <strong id="liveTimer">00:00:00</strong>
+          <span>Live Running Timer</span>
+        </div>
+        <p><strong>Total Worked Hours:</strong> {{ attendance.worked_hours }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

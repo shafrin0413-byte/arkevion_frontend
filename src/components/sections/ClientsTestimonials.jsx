@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { m, useInView } from 'framer-motion';
-import { Star, Quote, Sparkles } from 'lucide-react';
+import { Star, Quote, MessageCircle } from 'lucide-react';
 
 const testimonials = [
   {
@@ -10,6 +10,7 @@ const testimonials = [
     content: 'Arkevion delivered our platform ahead of schedule with exceptional quality. The end product exceeded every expectation. Their technical expertise truly sets them apart.',
     rating: 5,
     color: '#0d9488',
+    avatar: '/were/hr1.jpg',
   },
   {
     name: 'Priya Nair',
@@ -18,6 +19,7 @@ const testimonials = [
     content: 'The UI/UX redesign transformed our engagement metrics. Bounce rate dropped 40% within the first month. Our users consistently praise the new interface intuitiveness.',
     rating: 5,
     color: '#0891b2',
+    avatar: '/were/hr2.jpg',
   },
   {
     name: 'Aditya Reddy',
@@ -26,6 +28,7 @@ const testimonials = [
     content: 'Top-notch full stack development. Seamless integrations and impressive performance optimization. The scalability has accommodated our rapid growth flawlessly.',
     rating: 5,
     color: '#7c3aed',
+    avatar: '/were/hr3.jpg',
   },
   {
     name: 'Vikram Singh',
@@ -34,6 +37,7 @@ const testimonials = [
     content: 'The AI automation solution saved us 200+ hours of manual work every month. ROI was clear within weeks. Their innovative approach and commitment to excellence is remarkable.',
     rating: 5,
     color: '#0d9488',
+    avatar: '/were/hr4.jpg',
   },
   {
     name: 'Sneha Patel',
@@ -42,6 +46,7 @@ const testimonials = [
     content: 'Our digital marketing campaigns with Arkevion tripled our leads in just two months. The team is proactive, creative, and genuinely invested in our success.',
     rating: 5,
     color: '#0891b2',
+    avatar: '/were/hr5.jpg',
   },
   {
     name: 'Arjun Mehta',
@@ -50,6 +55,7 @@ const testimonials = [
     content: 'From ideation to launch, Arkevion was a true partner. They built our MVP in record time and the quality was production-ready from day one. Highly recommended.',
     rating: 5,
     color: '#7c3aed',
+    avatar: '/were/hr6.jpg',
   },
   {
     name: 'Shafrin',
@@ -58,6 +64,7 @@ const testimonials = [
     content: 'Interning at Arkevion was a transformative experience. I worked on real client projects from day one, sharpened my React and Node.js skills, and received mentorship that genuinely accelerated my growth as a developer.',
     rating: 5,
     color: '#0d9488',
+    avatar: '/were/hr7.jpg',
   },
   {
     name: 'Shivasri',
@@ -66,10 +73,11 @@ const testimonials = [
     content: 'The learning curve was steep in the best way possible. The team at Arkevion pushed me to think beyond textbooks. I left with a solid portfolio, a certificate, and confidence to take on any full stack challenge.',
     rating: 5,
     color: '#0891b2',
+    avatar: '/were/hr8.jpg',
   },
 ];
 
-function TestimonialCard({ name, position, company, content, rating, color }) {
+function TestimonialCard({ name, position, company, content, rating, color, avatar }) {
   return (
     <div
       className="relative flex-shrink-0 w-[78vw] sm:w-[340px] bg-white rounded-2xl border border-gray-100 p-5 mx-2"
@@ -94,11 +102,8 @@ function TestimonialCard({ name, position, company, content, rating, color }) {
 
       {/* Author */}
       <div className="flex items-center gap-3 pt-4 border-t border-gray-50">
-        <div
-          className="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0"
-          style={{ background: `linear-gradient(135deg, ${color}, ${color}cc)` }}
-        >
-          {name.charAt(0)}
+        <div className="h-11 w-11 shrink-0 overflow-hidden rounded-full ring-2 ring-white shadow-md" style={{ background: `linear-gradient(135deg, ${color}, ${color}cc)` }}>
+          <img src={avatar} alt={name} className="h-full w-full object-cover" onError={e => { e.currentTarget.style.display = 'none'; }} />
         </div>
         <div>
           <p className="text-sm font-bold text-charcoal leading-tight">{name}</p>
@@ -159,13 +164,13 @@ export default function ClientsTestimonials() {
           className="text-center"
         >
           <span className="eyebrow">
-            <Sparkles size={11} /> Our Clients
+            <MessageCircle size={11} /> Testimonials
           </span>
           <h2 className="section-title mt-4">
-            What our <span className="text-gradient">clients</span> say
+            What Our Clients Say
           </h2>
           <p className="text-sm text-gray-400 mt-3 max-w-md mx-auto leading-relaxed">
-            Real feedback from real partnerships that drive real results.
+            Feedback from Arkevion clients and interns who experienced practical delivery, clear communication, and measurable digital progress.
           </p>
         </m.div>
       </div>

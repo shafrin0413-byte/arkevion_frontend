@@ -41,9 +41,9 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 pt-16 border-t border-gray-100">
             {[
-              { value: '150+', label: 'Projects' },
+              { value: '50+', label: 'Projects' },
               { value: '50+', label: 'Clients' },
-              { value: '5+', label: 'Years' },
+              { value: '2+', label: 'Years' },
               { value: '10+', label: 'Countries' },
             ].map(({ value, label }, i) => (
               <m.div

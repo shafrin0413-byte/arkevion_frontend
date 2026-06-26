@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
 import { m } from 'framer-motion';
-import { Mail, Phone, MapPin, Linkedin, Twitter, Instagram, Github, ArrowRight } from 'lucide-react';
+import { Mail, Phone, MapPin, Linkedin, Instagram, ArrowRight } from 'lucide-react';
 
 const services = [
   { label: 'Web Development',    path: '/services' },
   { label: 'Full Stack Dev',     path: '/services' },
+  { label: 'Mobile Development', path: '/services' },
   { label: 'UI/UX Design',       path: '/services' },
   { label: 'Digital Marketing',  path: '/services' },
   { label: 'AI Automation',      path: '/services' },
-  { label: 'Software Solutions', path: '/services' },
 ];
 
 const quickLinks = [
@@ -22,9 +22,7 @@ const quickLinks = [
 
 const socials = [
   { icon: Linkedin,  href: 'https://www.linkedin.com/company/arkevion-technology/', label: 'LinkedIn'  },
-  { icon: Twitter,   href: 'https://twitter.com',                               label: 'Twitter'   },
   { icon: Instagram, href: 'https://www.instagram.com/arkeviontech.official/',  label: 'Instagram' },
-  { icon: Github,    href: 'https://github.com',                                label: 'GitHub'    },
 ];
 
 const stagger = {
@@ -48,29 +46,18 @@ export default function Footer() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-10"
+          className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 lg:grid-cols-4 lg:gap-12"
         >
           {/* Brand */}
           <m.div variants={fadeUp}>
-            <Link to="/" className="mb-4 flex items-center gap-3">
+            <Link to="/" className="mb-0 flex items-center">
               <img
-                src="/ARkevion_logo.png"
+                src="/Arkevion_logo.png"
                 alt="Arkevion"
-                className="h-14 w-auto brightness-0 invert sm:h-16"
+                className="h-24 w-auto brightness-0 invert sm:h-28 lg:h-32"
               />
-              <span className="flex flex-col leading-none">
-                <span className="font-display text-lg font-black tracking-normal text-white">
-                  ARKEVION
-                </span>
-                <span className="mt-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-gray-500">
-                  Technology Beyond The Limit
-                </span>
-              </span>
             </Link>
-            <p className="mb-5 text-[0.8125rem] leading-relaxed text-gray-400">
-              Arkevion Technology delivers premium digital solutions — web development,
-              AI automation, UI/UX design, and digital marketing.
-            </p>
+            <p className="-mt-4 mb-5 text-[0.8125rem] leading-relaxed text-gray-400 sm:-mt-5 lg:-mt-6">Arkevion Technology builds modern websites, custom software, AI automation, UI/UX systems, and digital growth solutions for businesses ready to move beyond limits.</p>
             <div className="flex gap-2.5">
               {socials.map(({ icon: Icon, href, label }) => (
                 <a
@@ -79,10 +66,10 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-9 h-9 rounded-lg flex items-center justify-center text-gray-400 transition-all duration-200 hover:text-white hover:bg-teal-600"
+                  className="w-10 h-10 rounded-lg flex items-center justify-center text-gray-400 transition-all duration-200 hover:text-white hover:bg-teal-600"
                   style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}
                 >
-                  <Icon size={15} />
+                  <Icon size={18} />
                 </a>
               ))}
             </div>
@@ -91,7 +78,7 @@ export default function Footer() {
           {/* Services */}
           <m.div variants={fadeUp}>
             <h4 className="mb-4 text-sm font-semibold tracking-wide text-white">Services</h4>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               {services.map(({ label, path }) => (
                 <li key={label}>
                   <Link
@@ -109,7 +96,7 @@ export default function Footer() {
           {/* Quick Links */}
           <m.div variants={fadeUp}>
             <h4 className="mb-4 text-sm font-semibold tracking-wide text-white">Quick Links</h4>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               {quickLinks.map(({ label, path }) => (
                 <li key={label}>
                   <Link
@@ -183,3 +170,4 @@ export default function Footer() {
     </footer>
   );
 }
+

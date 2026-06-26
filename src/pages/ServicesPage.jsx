@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { m, useInView } from 'framer-motion';
 import { Link, useParams } from 'react-router-dom';
-import { Code2, Layers, Palette, TrendingUp, Cpu, Zap, CheckCircle2, ArrowRight, Sparkles } from 'lucide-react';
+import { Code2, Layers, Palette, TrendingUp, Cpu, Zap, CheckCircle2, ArrowRight } from 'lucide-react';
 import { useLenis } from '../hooks';
 import PageTransition from '../components/ui/PageTransition';
 import SectionHeader from '../components/ui/SectionHeader';
@@ -132,7 +132,7 @@ function ServiceDetailPage() {
               </div>
             </m.div>
             <m.div initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: 0.1 }}>
-              <span className="eyebrow mb-4 inline-flex"><Sparkles size={12} /> Service</span>
+              <span className="eyebrow mb-4 inline-flex"><ArrowRight size={12} /> Service</span>
             </m.div>
             <m.h1 initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: 0.2 }} className="section-title mb-4">
               {service.title}

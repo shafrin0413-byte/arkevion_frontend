@@ -19,11 +19,11 @@ module.exports = {
           800: '#09313A',
           900: '#021519',
         },
-        charcoal: '#555555',
+        charcoal: '#000000',
       },
       fontFamily: {
-        sans: ['DM Sans', 'system-ui', 'sans-serif'],
-        display: ['Sora', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Inter', 'system-ui', 'sans-serif'],
       },
       transitionDuration: {
         '250': '250ms',

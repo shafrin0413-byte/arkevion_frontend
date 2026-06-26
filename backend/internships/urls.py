@@ -1,0 +1,37 @@
+from django.urls import path
+
+from . import views
+
+urlpatterns = [
+    path("", views.dashboard_redirect, name="dashboard_redirect"),
+    path("logout/", views.logout_view, name="logout"),
+    path("student/login/", views.student_login, name="student_login"),
+    path("student/dashboard/", views.student_dashboard, name="student_dashboard"),
+    path("student/profile/", views.student_profile, name="student_profile"),
+    path("student/courses/", views.student_courses, name="student_courses"),
+    path("student/attendance/", views.student_attendance, name="student_attendance"),
+    path("student/results/", views.student_results, name="student_results"),
+    path("student/leave-requests/", views.student_leave, name="student_leave"),
+    path("student/settings/", views.student_settings, name="student_settings"),
+    path("student/check-in/", views.check_in, name="check_in"),
+    path("student/check-out/", views.check_out, name="check_out"),
+    path("student/leave/", views.submit_leave, name="submit_leave"),
+    path("student/tasks/<int:pk>/status/", views.task_status_update, name="task_status_update"),
+    path("admin/login/", views.admin_login, name="admin_login"),
+    path("admin/register/", views.admin_register, name="admin_register"),
+    path("admin/dashboard/", views.admin_dashboard, name="admin_dashboard"),
+    path("admin/reports/", views.admin_reports, name="admin_reports"),
+    path("admin/settings/", views.admin_settings, name="admin_settings"),
+    path("admin/students/", views.student_list, name="student_list"),
+    path("admin/students/add/", views.student_create, name="student_create"),
+    path("admin/students/<int:pk>/edit/", views.student_edit, name="student_edit"),
+    path("admin/students/<int:pk>/delete/", views.student_delete, name="student_delete"),
+    path("admin/students/<int:pk>/reset-password/", views.student_reset_password, name="student_reset_password"),
+    path("admin/tasks/", views.task_list, name="task_list"),
+    path("admin/tasks/add/", views.task_create, name="task_create"),
+    path("admin/tasks/<int:pk>/edit/", views.task_edit, name="task_edit"),
+    path("admin/tasks/<int:pk>/delete/", views.task_delete, name="task_delete"),
+    path("admin/attendance/", views.attendance_list, name="attendance_list"),
+    path("admin/leaves/", views.leave_list, name="leave_list"),
+    path("admin/leaves/<int:pk>/<str:action>/", views.leave_review, name="leave_review"),
+]

@@ -1,0 +1,20 @@
+<aside class="ark-side" aria-label="Student navigation">
+  <a href="{% url 'student_dashboard' %}" class="{% if request.resolver_match.url_name == 'student_dashboard' %}active{% endif %}">
+    <span aria-hidden="true">D</span> Dashboard
+  </a>
+  <a href="{% url 'student_profile' %}" class="{% if request.resolver_match.url_name == 'student_profile' %}active{% endif %}">
+    <span aria-hidden="true">P</span> Profile
+  </a>
+  <a href="{% url 'student_courses' %}" class="{% if request.resolver_match.url_name == 'student_courses' %}active{% endif %}">
+    <span aria-hidden="true">T</span> Tasks
+  </a>
+  <a href="{% url 'student_attendance' %}" class="{% if request.resolver_match.url_name == 'student_attendance' %}active{% endif %}">
+    <span aria-hidden="true">A</span> Attendance
+  </a>
+  <a href="{% url 'student_results' %}" class="{% if request.resolver_match.url_name == 'student_results' %}active{% endif %}">
+    <span aria-hidden="true">R</span> Results
+  </a>
+  <a href="{% url 'student_leave' %}" class="{% if request.resolver_match.url_name == 'student_leave' %}active{% endif %}">
+    <span aria-hidden="true">L</span> Leave Requests
+  </a>
+</aside>

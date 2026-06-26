@@ -15,6 +15,7 @@ import Portfolio from './pages/PortfolioPage';
 import Contact from './pages/Contact';
 import OurClients from './pages/OurClients';
 import ClientDetail from './pages/ClientDetail';
+import ChatbotWidget from './components/ChatbotWidget';
 
 const WHATSAPP_NUMBER = '918838749824';
 
@@ -45,13 +46,13 @@ function SplashScreen() {
     <m.div
       initial={{ opacity: 1 }} exit={{ opacity: 0 }}
       transition={{ duration: 0.2, ease: 'easeOut' }}
-      className="fixed inset-0 z-[200] flex items-center justify-center bg-white"
+      className="blur-loader-bg fixed inset-0 z-[200] flex items-center justify-center"
       style={{ willChange: 'opacity' }}
     >
       <div className="flex flex-col items-center gap-3">
         <m.img
           src="/Arkevion_logo.png" alt="Arkevion"
-          className="h-16 w-auto object-contain"
+          className="h-24 w-auto object-contain sm:h-28"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
@@ -76,18 +77,25 @@ function RouteLoader() {
   return (
     <m.div
       initial={{ opacity: 1 }} exit={{ opacity: 0 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="fixed inset-0 z-[150] flex items-center justify-center bg-white"
+      transition={{ duration: 0.25, ease: 'easeOut' }}
+      className="blur-loader-bg fixed inset-0 z-[150] flex items-center justify-center"
     >
-      <div className="flex items-center gap-2">
-        {[0, 1, 2].map(i => (
-          <m.span
-            key={i}
-            className="block w-3 h-3 rounded-full bg-teal-primary"
-            animate={{ y: [0, -12, 0] }}
-            transition={{ duration: 0.6, repeat: Infinity, ease: 'easeInOut', delay: i * 0.15 }}
+      <div className="flex flex-col items-center gap-3">
+        <m.img
+          src="/Arkevion_logo.png"
+          alt="Arkevion"
+          className="h-20 w-auto object-contain sm:h-24"
+          animate={{ opacity: [0.72, 1, 0.72], scale: [0.96, 1, 0.96] }}
+          transition={{ duration: 0.9, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <div className="h-0.5 w-24 overflow-hidden rounded-full bg-gray-100">
+          <m.div
+            initial={{ x: '-100%' }}
+            animate={{ x: '100%' }}
+            transition={{ duration: 0.85, repeat: Infinity, ease: 'easeInOut' }}
+            className="h-full w-14 rounded-full bg-teal-primary"
           />
-        ))}
+        </div>
       </div>
     </m.div>
   );
@@ -143,7 +151,7 @@ export default function App() {
         {!splash && (
           <>
             <Navbar />
-            <main className="relative block min-h-[calc(100svh-4rem)] overflow-x-hidden bg-white sm:min-h-[calc(100svh-72px)] lg:min-h-[calc(100svh-5rem)]">
+            <main className="site-main relative block min-h-[calc(100svh-4rem)] overflow-x-hidden bg-white sm:min-h-[calc(100svh-72px)] lg:min-h-[calc(100svh-5rem)]">
               <Routes location={location}>
                 <Route path="/"             element={<Home />}         />
                 <Route path="/about"        element={<About />}        />
@@ -161,6 +169,7 @@ export default function App() {
             </main>
             <Footer />
             <WhatsAppButton />
+            <ChatbotWidget />
           </>
         )}
       </div>

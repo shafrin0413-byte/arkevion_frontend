@@ -1,0 +1,17 @@
+{% extends "ims/base.html" %}
+{% block title %}Tasks | Arkevion{% endblock %}
+{% block content %}
+<section class="ark-dashboard ark-container">
+  {% include "ims/student/sidebar.html" %}
+  <div class="ark-panel">
+    <div class="ark-title-row">
+      <div><span class="ark-eyebrow">Assigned Work</span><h1>Tasks</h1></div>
+      <div><span class="ark-badge complete">{{ complete_tasks }} Complete</span> <span class="ark-badge progress">{{ progress_tasks }} Progress</span> <span class="ark-badge hold">{{ hold_tasks }} Hold</span></div>
+    </div>
+    <div class="ark-table-wrap"><table class="ark-table"><thead><tr><th>Task</th><th>Description</th><th>Due</th><th>Status</th></tr></thead><tbody>
+      {% for task in tasks %}<tr><td>{{ task.title }}</td><td>{{ task.description|truncatechars:90 }}</td><td>{{ task.due_date|default:"-" }}</td><td><form class="ark-status-form" method="post" action="{% url 'task_status_update' task.pk %}">{% csrf_token %}<select class="ark-status-select {{ task.status }}" name="status" aria-label="Update status for {{ task.title }}" onchange="this.form.submit()"><option value="progress" {% if task.status == "progress" %}selected{% endif %}>Progress</option><option value="hold" {% if task.status == "hold" %}selected{% endif %}>Hold</option><option value="complete" {% if task.status == "complete" %}selected{% endif %}>Complete</option></select></form></td></tr>
+      {% empty %}<tr><td colspan="4">No tasks assigned yet.</td></tr>{% endfor %}
+    </tbody></table></div>
+  </div>
+</section>
+{% endblock %}

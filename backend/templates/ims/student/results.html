@@ -1,0 +1,19 @@
+{% extends "ims/base.html" %}
+{% block title %}Results | Arkevion{% endblock %}
+{% block content %}
+<section class="ark-dashboard ark-container">
+  {% include "ims/student/sidebar.html" %}
+  <div class="ark-panel">
+    <div><span class="ark-eyebrow">Performance</span><h1>Results</h1></div>
+    <div class="ark-stats">
+      <div class="ark-card ark-stat-card"><strong>{{ complete_tasks }}</strong><span>Completed</span></div>
+      <div class="ark-card ark-stat-card"><strong>{{ progress_tasks }}</strong><span>In Progress</span></div>
+      <div class="ark-card ark-stat-card"><strong>{{ hold_tasks }}</strong><span>On Hold</span></div>
+    </div>
+    <div class="ark-card">
+      <h2>Course Result Summary</h2>
+      <p class="ark-muted">Your result view is based on assigned task progress. Certificate and scoring details can be added here when evaluation records are available.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

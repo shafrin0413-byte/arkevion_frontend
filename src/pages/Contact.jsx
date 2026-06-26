@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { m, AnimatePresence } from 'framer-motion';
-import { Instagram, Mail, MapPin, Phone, ArrowRight, MessageCircle, ChevronDown, Sparkles } from 'lucide-react';
+import { Instagram, Mail, MapPin, Phone, ArrowRight, MessageCircle, ChevronDown } from 'lucide-react';
 import MobileConnectionBackground from '../components/ui/MobileConnectionBackground';
 import PageHeroBanner from '../components/ui/PageHeroBanner';
 
 const ease = [0.25, 0.46, 0.45, 0.94];
-const SERVICES = ['Web Development','Full Stack','UI/UX Design','Digital Marketing','AI Automation','Software Solutions','Internship'];
+const SERVICES = ['Web Development','Full Stack','Mobile Development','UI/UX Design','Digital Marketing','AI Automation','Software Solutions','Internship'];
 
 function CustomSelect({ options, placeholder, value, onChange }) {
   const [open, setOpen] = useState(false);
@@ -66,13 +66,13 @@ export default function Contact() {
           style={{ background: 'radial-gradient(circle, #0d9488 0%, transparent 70%)' }} />
         <div className="container-pad relative z-10">
           <m.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease }}>
-            <span className="eyebrow"><Sparkles size={11} /> Contact Us</span>
+            <span className="eyebrow"><Phone size={11} /> Contact Us</span>
           </m.div>
           <m.h1 initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.09, ease }} className="mt-5 section-title">
             Let's build something<br /><span className="text-gradient">great together.</span>
           </m.h1>
           <m.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.17, ease }} className="mt-4 max-w-xl text-sm leading-relaxed text-gray-500">
-            We respond within 24 hours. Tell us about your project and we'll figure out the best way to help.
+            Connect with Arkevion Technology for websites, applications, automation, UI/UX, marketing, or internship enquiries. Share your goals and our team will guide you with the right next step.
           </m.p>
         </div>
       </PageHeroBanner>

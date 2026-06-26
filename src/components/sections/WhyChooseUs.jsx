@@ -1,12 +1,12 @@
 import { useRef } from 'react';
 import { m, useInView } from 'framer-motion';
-import { ShieldCheck, Rocket, Clock, Award, Sparkles, Check } from 'lucide-react';
+import { ShieldCheck, Rocket, Clock, Award, Info, Check } from 'lucide-react';
 
 const reasons = [
   { icon: ShieldCheck, title: 'Quality First',    description: 'Rigorous QA and code reviews on every project. We never compromise on quality.',             color: '#0d9488' },
   { icon: Rocket,      title: 'On-Time Delivery', description: 'Agile process that respects your deadlines. We deliver what we promise, when we promise.',   color: '#0891b2' },
   { icon: Clock,       title: '24/7 Support',     description: "Post-launch support so you never hit a wall. We're always here when you need us.",           color: '#0d9488' },
-  { icon: Award,       title: 'Proven Results',   description: 'Track record across 150+ successful projects. Our work speaks for itself.',                  color: '#0891b2' },
+  { icon: Award,       title: 'Proven Results',   description: 'Track record across 50+ completed projects with practical delivery, clean communication, and measurable outcomes.', color: '#0891b2' },
 ];
 
 const features = [
@@ -41,7 +41,7 @@ export default function WhyChooseUs() {
               transition={{ duration: 0.4, ease }}
               className="eyebrow"
             >
-              <Sparkles size={11} /> Why Us
+              <Info size={11} /> Why Us
             </m.span>
 
             <m.h2

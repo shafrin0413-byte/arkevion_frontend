@@ -83,7 +83,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
             <div className="relative">
-              <img src="/ARkevion_logo.png" alt="Arkevion" className="h-16 w-auto relative z-10" />
+              <img src="/Arkevion_logo.png" alt="Arkevion" className="h-20 w-auto relative z-10 lg:h-24" />
               <div className="absolute inset-0 bg-teal-400/20 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
           </Link>

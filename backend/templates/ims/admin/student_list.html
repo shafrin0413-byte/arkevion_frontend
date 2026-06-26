@@ -1,0 +1,32 @@
+{% extends "ims/base.html" %}
+{% block title %}Students | Arkevion{% endblock %}
+{% block content %}
+<section class="ark-dashboard ark-container">
+  {% include "ims/admin/sidebar.html" %}
+  <div class="ark-panel">
+    <div class="ark-title-row"><div><span class="ark-eyebrow">Student Management</span><h1>Students</h1></div><a class="ark-btn" href="{% url 'student_create' %}">Add Student</a></div>
+    <div class="ark-table-wrap">
+      <table class="ark-table">
+        <thead><tr><th>Name</th><th>Email</th><th>Domain</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          {% for student in students %}
+          <tr>
+            <td>{{ student.user.full_name }}</td><td>{{ student.user.email }}</td><td>{{ student.domain.name }}</td>
+            <td><span class="ark-badge {% if student.is_active %}complete{% else %}hold{% endif %}">{% if student.is_active %}Active{% else %}Disabled{% endif %}</span></td>
+            <td class="ark-actions-inline">
+              <a class="ark-icon-btn" href="{% url 'student_edit' student.pk %}" aria-label="Edit student" data-tooltip="Edit">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16.5V20h3.5L18.06 9.44l-3.5-3.5L4 16.5zm15.77-8.77a.94.94 0 0 0 0-1.33L17.6 4.23a.94.94 0 0 0-1.33 0l-1.7 1.7 3.5 3.5 1.7-1.7z"/></svg>
+              </a>
+              <a href="{% url 'student_reset_password' student.pk %}">Reset</a>
+              <a class="ark-icon-btn danger" href="{% url 'student_delete' student.pk %}" aria-label="Delete student" data-tooltip="Delete">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 19c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V7H6v12zM8 4l1-1h6l1 1h4v2H4V4h4z"/></svg>
+              </a>
+            </td>
+          </tr>
+          {% empty %}<tr><td colspan="5">No students found.</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

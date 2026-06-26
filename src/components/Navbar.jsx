@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, m } from 'framer-motion';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X, ArrowRight, ChevronDown } from 'lucide-react';
 
 const links = [
   { label: 'Home', to: '/' },
@@ -14,9 +14,25 @@ const links = [
   { label: 'Contact', to: '/contact' },
 ];
 
+const configuredInternshipUrl = process.env.REACT_APP_INTERNSHIP_URL?.replace(/\/$/, '');
+const internshipBaseUrl = configuredInternshipUrl || (
+  typeof window !== 'undefined' && window.location.port && window.location.port !== '8000'
+    ? 'http://127.0.0.1:8000'
+    : ''
+);
+
+const internshipLinks = [
+  { label: 'Student', href: `${internshipBaseUrl}/internships/student/login/` },
+  { label: 'Admin', href: `${internshipBaseUrl}/internships/admin/login/` },
+];
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [portalDropdownOpen, setPortalDropdownOpen] = useState(false);
+  const [portalDropdownPinned, setPortalDropdownPinned] = useState(false);
+  const [mobilePortalOpen, setMobilePortalOpen] = useState(false);
+  const portalDropdownRef = useRef(null);
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -28,24 +44,46 @@ export default function Navbar() {
 
   useEffect(() => {
     setOpen(false);
+    setPortalDropdownOpen(false);
+    setPortalDropdownPinned(false);
+    setMobilePortalOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    const closeDropdown = (event) => {
+      if (portalDropdownRef.current?.contains(event.target)) return;
+      setPortalDropdownOpen(false);
+      setPortalDropdownPinned(false);
+    };
+
+    document.addEventListener('mousedown', closeDropdown);
+    return () => document.removeEventListener('mousedown', closeDropdown);
+  }, []);
+
+  const togglePortalDropdown = () => {
+    setPortalDropdownPinned((pinned) => {
+      const nextPinned = !pinned;
+      setPortalDropdownOpen(nextPinned);
+      return nextPinned;
+    });
+  };
 
   return (
     <header className={`sticky top-0 z-50 border-b border-gray-100 bg-white/95 backdrop-blur-xl transition-shadow duration-300 ${scrolled ? 'shadow-sm' : ''}`}>
       <div className="container-pad">
-        <div className="flex h-16 items-center justify-between sm:h-[72px] lg:h-20">
+        <div className="flex h-20 items-center justify-between sm:h-[72px] lg:h-20">
           <Link to="/" className="flex shrink-0 items-center">
-            <img src="/Arkevion_logo.png" alt="Arkevion Technology" className="h-12 w-auto object-contain sm:h-14 lg:h-16" />
+            <img src="/Arkevion_logo.png" alt="Arkevion Technology" className="h-24 w-auto object-contain sm:h-16 lg:h-20" />
           </Link>
 
-          <nav className="hidden items-center gap-2 lg:flex">
+          <nav className="hidden min-w-0 flex-1 items-center justify-center gap-1 lg:flex xl:gap-2">
             {links.map((link) => {
               const active = pathname === link.to;
               return (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`group relative rounded-full px-3 py-2 text-sm transition ${active ? 'bg-teal-50 font-semibold text-teal-primary' : 'font-medium text-gray-500 hover:bg-gray-50 hover:text-teal-primary'}`}
+                  className={`group relative whitespace-nowrap rounded-full px-2.5 py-2 text-[13px] transition xl:px-3 xl:text-sm ${active ? 'bg-teal-50 font-semibold text-teal-primary' : 'font-medium text-gray-500 hover:bg-gray-50 hover:text-teal-primary'}`}
                 >
                   {link.label}
                   <m.span
@@ -60,14 +98,60 @@ export default function Navbar() {
             })}
           </nav>
 
-          <Link to="/contact" className="hidden items-center gap-2 rounded-full bg-teal-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:opacity-90 active:scale-95 lg:inline-flex">
-            Get in Touch <ArrowRight size={14} />
-          </Link>
+          <div className="hidden shrink-0 items-center gap-2 lg:flex">
+            <div
+              ref={portalDropdownRef}
+              className="relative"
+              onMouseEnter={() => setPortalDropdownOpen(true)}
+              onMouseLeave={() => {
+                if (!portalDropdownPinned) setPortalDropdownOpen(false);
+              }}
+            >
+              <button
+                type="button"
+                onClick={togglePortalDropdown}
+                className="inline-flex items-center gap-1 rounded-full border border-teal-100 bg-white px-3 py-2 text-[13px] font-semibold text-teal-700 transition hover:bg-teal-50 xl:text-sm"
+                aria-expanded={portalDropdownOpen}
+                aria-haspopup="true"
+              >
+                Login
+                <ChevronDown size={14} className={`transition-transform duration-200 ${portalDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              <AnimatePresence>
+                {portalDropdownOpen && (
+                  <m.div
+                    initial={{ opacity: 0, y: 2, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 8, scale: 1 }}
+                    exit={{ opacity: 0, y: 2, scale: 0.98 }}
+                    transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute right-0 top-[calc(100%-2px)] z-50 min-w-40 rounded-2xl border border-teal-50 bg-white p-2 shadow-2xl shadow-teal-950/10"
+                  >
+                    {internshipLinks.map((item) => (
+                      <a
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => {
+                          setPortalDropdownOpen(false);
+                          setPortalDropdownPinned(false);
+                        }}
+                        className="block rounded-xl px-4 py-3 text-sm font-semibold text-gray-600 transition hover:bg-teal-50 hover:text-teal-primary"
+                      >
+                        {item.label}
+                      </a>
+                    ))}
+                  </m.div>
+                )}
+              </AnimatePresence>
+            </div>
+            <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-teal-primary px-3.5 py-2 text-[13px] font-semibold text-white transition hover:-translate-y-0.5 hover:opacity-90 active:scale-95 xl:px-4 xl:text-sm">
+              Get in Touch <ArrowRight size={14} />
+            </Link>
+          </div>
 
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-teal-100 bg-white text-teal-700 shadow-[0_10px_28px_rgba(13,148,136,0.16)] transition hover:border-teal-200 hover:bg-teal-50 active:scale-95 lg:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-teal-100 bg-white text-teal-700 shadow-[0_10px_28px_rgba(13,148,136,0.16)] transition hover:border-teal-200 hover:bg-teal-50 active:scale-95 lg:hidden"
             aria-label="Toggle navigation"
             aria-expanded={open}
           >
@@ -82,7 +166,7 @@ export default function Navbar() {
             <m.button
               type="button"
               aria-label="Close navigation"
-              className="fixed inset-0 top-16 z-40 bg-teal-950/10 backdrop-blur-sm sm:top-[72px] lg:hidden"
+              className="fixed inset-0 top-20 z-40 bg-teal-950/10 backdrop-blur-sm sm:top-[72px] lg:hidden"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -113,6 +197,30 @@ export default function Navbar() {
                       </Link>
                     );
                   })}
+                </div>
+                <div className="mt-3 border-t border-gray-100 pt-3">
+                  <button
+                    type="button"
+                    onClick={() => setMobilePortalOpen((value) => !value)}
+                    className="flex w-full items-center justify-between rounded-xl px-4 py-3 text-left text-sm font-semibold text-teal-700 transition hover:bg-[#EFF9FB]"
+                    aria-expanded={mobilePortalOpen}
+                  >
+                    Login
+                    <ChevronDown size={15} className={`transition-transform duration-200 ${mobilePortalOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  {mobilePortalOpen && (
+                    <div className="mt-1 grid gap-1 pl-3">
+                      {internshipLinks.map((item) => (
+                        <a
+                          key={item.href}
+                          href={item.href}
+                          className="rounded-xl px-4 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-[#EFF9FB] hover:text-teal-primary"
+                        >
+                          {item.label}
+                        </a>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <Link to="/contact" className="mt-3 flex items-center justify-center gap-2 rounded-xl bg-teal-primary px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-teal-600/20 transition active:scale-[0.99]">
                   Get in Touch <ArrowRight size={14} />

@@ -1,0 +1,17 @@
+<aside class="ark-side" aria-label="Admin navigation">
+  <a href="{% url 'admin_dashboard' %}" class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+    <span aria-hidden="true">D</span> Dashboard
+  </a>
+  <a href="{% url 'student_list' %}" class="{% if request.resolver_match.url_name == 'student_list' or request.resolver_match.url_name == 'student_create' or request.resolver_match.url_name == 'student_edit' or request.resolver_match.url_name == 'student_reset_password' %}active{% endif %}">
+    <span aria-hidden="true">S</span> Students
+  </a>
+  <a href="{% url 'task_list' %}" class="{% if request.resolver_match.url_name == 'task_list' or request.resolver_match.url_name == 'task_create' or request.resolver_match.url_name == 'task_edit' %}active{% endif %}">
+    <span aria-hidden="true">T</span> Tasks
+  </a>
+  <a href="{% url 'admin_reports' %}" class="{% if request.resolver_match.url_name == 'admin_reports' or request.resolver_match.url_name == 'attendance_list' %}active{% endif %}">
+    <span aria-hidden="true">R</span> Reports
+  </a>
+  <a href="{% url 'leave_list' %}" class="{% if request.resolver_match.url_name == 'leave_list' %}active{% endif %}">
+    <span aria-hidden="true">L</span> Leave Approval
+  </a>
+</aside>

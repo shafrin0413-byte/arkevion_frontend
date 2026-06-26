@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { m } from 'framer-motion';
-import { Code2, Palette, TrendingUp, Layers, Zap, CheckCircle2, Clock, BookOpen, Sparkles, ArrowRight } from 'lucide-react';
+import { Code2, Palette, TrendingUp, Layers, Zap, CheckCircle2, Clock, BookOpen, Briefcase, ArrowRight } from 'lucide-react';
 import { useLenis } from '../hooks';
 import PageTransition from '../components/ui/PageTransition';
 import PageHeroBanner from '../components/ui/PageHeroBanner';
@@ -72,7 +72,7 @@ export default function InternshipPage() {
             transition={{ duration: 0.5 }}
           >
             <span className="eyebrow">
-              <Sparkles size={12} />
+              <Briefcase size={12} />
               Internship Programs
             </span>
           </m.div>
@@ -143,7 +143,7 @@ export default function InternshipPage() {
                 transition={{ duration: 0.5 }}
               >
                 <span className="eyebrow">
-                  <Sparkles size={12} />
+                  <CheckCircle2 size={12} />
                   Benefits
                 </span>
               </m.div>
@@ -237,7 +237,7 @@ export default function InternshipPage() {
             viewport={{ once: true }}
             className="text-center mb-10"
           >
-            <span className="eyebrow"><Sparkles size={12} /> Apply Now</span>
+            <span className="eyebrow"><Briefcase size={12} /> Apply Now</span>
             <h2 className="section-title mt-4 mb-3">Start Your Application</h2>
             <p className="text-gray-400 max-w-md mx-auto">
               Fill in your details — we'll get back within 48 hours.

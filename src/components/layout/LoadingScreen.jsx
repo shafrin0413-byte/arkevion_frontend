@@ -15,7 +15,7 @@ export default function LoadingScreen() {
         <m.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.5, ease: 'easeInOut' } }}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-white"
+          className="blur-loader-bg fixed inset-0 z-[100] flex items-center justify-center"
         >
           <div className="flex flex-col items-center gap-6">
             <m.div

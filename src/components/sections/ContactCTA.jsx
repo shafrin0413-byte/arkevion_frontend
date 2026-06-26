@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { m, useInView } from 'framer-motion';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Phone } from 'lucide-react';
 
 const ease = [0.25, 0.46, 0.45, 0.94];
 
@@ -51,7 +51,7 @@ export default function ContactCTA() {
                 border: '1px solid rgba(42,175,202,0.2)',
               }}
             >
-              <Sparkles size={11} />
+              <Phone size={11} />
               Let's Build Together
             </span>
           </div>
@@ -61,8 +61,8 @@ export default function ContactCTA() {
             <span className="text-gradient">in mind?</span>
           </h2>
 
-          <p className="text-gray-400 text-base md:text-lg leading-relaxed max-w-lg mx-auto mb-8 md:mb-10">
-            Let's build something great together. Reach out and we'll respond within 24 hours.
+          <p className="text-white text-base md:text-lg leading-relaxed max-w-lg mx-auto mb-8 md:mb-10">
+            Share your website, software, automation, design, marketing, or internship requirement with Arkevion Technology and our team will guide the next step.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
@@ -100,7 +100,7 @@ export default function ContactCTA() {
             transition={{ delay: 0.3, duration: 0.4 }}
             className="mt-12 pt-6 border-t border-white/10"
           >
-            <p className="text-sm text-gray-500">No commitment. Just a conversation.</p>
+            <p className="text-sm text-white">No commitment. Just a conversation.</p>
           </m.div>
         </m.div>
       </div>

@@ -1,0 +1,32 @@
+{% extends "ims/base.html" %}
+{% block title %}Reports | Arkevion{% endblock %}
+{% block content %}
+<section class="ark-dashboard ark-container">
+  {% include "ims/admin/sidebar.html" %}
+  <div class="ark-panel">
+    <div class="ark-title-row">
+      <div><span class="ark-eyebrow">Analytics</span><h1>Reports</h1></div>
+      <div><a class="ark-btn ark-btn-outline" href="{% url 'attendance_list' %}">Attendance</a> <a class="ark-btn ark-btn-outline" href="{% url 'leave_list' %}">Leaves</a></div>
+    </div>
+    <div class="ark-stats">
+      <div class="ark-card ark-stat-card"><strong>{{ student_count }}</strong><span>Students</span></div>
+      <div class="ark-card ark-stat-card"><strong>{{ course_count }}</strong><span>Tasks</span></div>
+      <div class="ark-card ark-stat-card"><strong>{{ pending_leave_count }}</strong><span>Pending Leaves</span></div>
+    </div>
+    <div class="ark-grid-2">
+      <div class="ark-card">
+        <div class="ark-card-head"><h2>Recent Attendance</h2><a href="{% url 'attendance_list' %}">View all</a></div>
+        {% for row in recent_attendance %}
+          <div class="ark-row"><span>{{ row.student.user.full_name }}</span><em class="ark-badge {{ row.status }}">{{ row.get_status_display }}</em></div>
+        {% empty %}<p class="ark-muted">No attendance records.</p>{% endfor %}
+      </div>
+      <div class="ark-card">
+        <div class="ark-card-head"><h2>Leave Requests</h2><a href="{% url 'leave_list' %}">Review</a></div>
+        {% for leave in recent_leaves %}
+          <div class="ark-row"><span>{{ leave.student.user.full_name }}</span><em class="ark-badge {{ leave.status }}">{{ leave.get_status_display }}</em></div>
+        {% empty %}<p class="ark-muted">No leave requests.</p>{% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

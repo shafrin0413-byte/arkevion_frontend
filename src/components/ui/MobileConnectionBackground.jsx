@@ -36,12 +36,12 @@ export default function MobileConnectionBackground({ globe = false }) {
             style={{ animationDelay: `${index * 0.22}s` }}
           />
         ))}
-        {nodes.map(([cx, cy], index) => (
+        {!globe && nodes.map(([cx, cy], index) => (
           <circle
             key={`${cx}-${cy}`}
             cx={cx}
             cy={cy}
-            r={globe ? 1.55 : 1.1}
+            r={1.1}
             className="mobile-connection-node"
             style={{ animationDelay: `${index * 0.18}s` }}
           />

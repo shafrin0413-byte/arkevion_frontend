@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { m } from 'framer-motion';
-import { Clock, Code2, DollarSign, HeadphonesIcon, Heart, Zap, ArrowRight, CheckCircle2, Sparkles } from 'lucide-react';
+import { Clock, Code2, DollarSign, HeadphonesIcon, Heart, Zap, ArrowRight, CheckCircle2, Info } from 'lucide-react';
 import { fadeUp, viewport } from '../utils/animations';
 import MobileConnectionBackground from '../components/ui/MobileConnectionBackground';
 import PageHeroBanner from '../components/ui/PageHeroBanner';
@@ -38,7 +38,7 @@ export default function WhyUs() {
           style={{ background: 'radial-gradient(circle, #0d9488 0%, transparent 70%)' }} />
         <div className="container-pad relative z-10">
           <m.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease }}>
-            <span className="eyebrow"><Sparkles size={11} /> Why Arkevion</span>
+            <span className="eyebrow"><Info size={11} /> Why Arkevion</span>
           </m.div>
           <m.h1 initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.09, ease }} className="mt-5 section-title">
             Partners who deliver,<br /><span className="text-gradient">not just promise.</span>
@@ -77,7 +77,7 @@ export default function WhyUs() {
       <section className="py-6 sm:py-14 bg-[#fafcfc]">
         <div className="container-pad">
           <div className="text-center mb-12">
-            <span className="eyebrow"><Sparkles size={10} /> How We Work</span>
+            <span className="eyebrow"><Info size={10} /> How We Work</span>
             <h2 className="section-title mt-4">Our <span className="text-gradient">process.</span></h2>
           </div>
           <div className="relative">

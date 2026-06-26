@@ -1,0 +1,30 @@
+{% extends "ims/base.html" %}
+{% block title %}Admin Dashboard | Arkevion{% endblock %}
+{% block content %}
+<section class="ark-dashboard ark-container">
+  {% include "ims/admin/sidebar.html" %}
+  <div class="ark-panel">
+    <span class="ark-eyebrow">{{ user.assigned_domain.name }} Admin</span>
+    <h1>Dashboard</h1>
+    <div class="ark-stats">
+      <div class="ark-card"><strong>{{ student_count }}</strong><span>Students</span></div>
+      <div class="ark-card"><strong>{{ task_count }}</strong><span>Tasks</span></div>
+      <div class="ark-card"><strong>{{ pending_leave_count }}</strong><span>Pending Leaves</span></div>
+    </div>
+    <div class="ark-grid-2">
+      <div class="ark-card">
+        <div class="ark-card-head"><h2>Recent Tasks</h2><a href="{% url 'task_list' %}">View all</a></div>
+        {% for task in tasks %}
+          <div class="ark-row"><span>{{ task.title }}</span><em class="ark-badge {{ task.status }}">{{ task.get_status_display }}</em></div>
+        {% empty %}<p class="ark-muted">No tasks yet.</p>{% endfor %}
+      </div>
+      <div class="ark-card">
+        <div class="ark-card-head"><h2>Leave Requests</h2><a href="{% url 'leave_list' %}">Review</a></div>
+        {% for leave in leaves %}
+          <div class="ark-row"><span>{{ leave.student.user.full_name }}</span><em class="ark-badge {{ leave.status }}">{{ leave.get_status_display }}</em></div>
+        {% empty %}<p class="ark-muted">No leave requests.</p>{% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

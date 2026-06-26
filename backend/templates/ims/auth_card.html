@@ -1,0 +1,36 @@
+{% extends "ims/base.html" %}
+{% block content %}
+<section class="ark-auth">
+  <div class="ark-container ark-auth-grid">
+    <div>
+      <span class="ark-eyebrow">{{ eyebrow }}</span>
+      <h1>{{ heading }}</h1>
+      <p>{{ subheading }}</p>
+    </div>
+    <form method="post" class="ark-card ark-form">
+      {% csrf_token %}
+      <h2>{{ form_title }}</h2>
+      {{ form.non_field_errors }}
+      {% if button_text == "Login" %}
+        <label>
+          Role
+          <select class="ark-input" data-login-role-select>
+            <option value="{% url 'student_login' %}" {% if "Student" in form_title %}selected{% endif %}>Student</option>
+            <option value="{% url 'admin_login' %}" {% if "Admin" in form_title %}selected{% endif %}>Admin</option>
+          </select>
+        </label>
+      {% endif %}
+      {% for field in form %}
+        <label>
+          {{ field.label }}
+          {{ field }}
+          {% if field.help_text %}<span class="ark-help-text">{{ field.help_text }}</span>{% endif %}
+          {{ field.errors }}
+        </label>
+      {% endfor %}
+      <button class="ark-btn ark-btn-wide" type="submit">{{ button_text }}</button>
+      {% block auth_extra %}{% endblock %}
+    </form>
+  </div>
+</section>
+{% endblock %}

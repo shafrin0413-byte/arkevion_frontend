@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { m, useInView } from 'framer-motion';
-import { Sparkles } from 'lucide-react';
+import { Info } from 'lucide-react';
 
 export default function SectionHeader({ tag, title, subtitle, center = true }) {
   const ref = useRef(null);
@@ -16,7 +16,7 @@ export default function SectionHeader({ tag, title, subtitle, center = true }) {
     >
       {tag && (
         <span className="eyebrow mb-4 inline-flex">
-          <Sparkles size={12} />
+          <Info size={12} />
           {tag}
         </span>
       )}

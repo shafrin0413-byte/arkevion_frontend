@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { m, useInView } from 'framer-motion';
-import { Instagram, Github, Linkedin, Mail, Phone, Sparkles, ArrowUpRight } from 'lucide-react';
+import { Instagram, Linkedin, Mail, Phone, ArrowUpRight } from 'lucide-react';
 
 const NAV = [
   { label: 'Home',       path: '/'           },
@@ -14,13 +14,13 @@ const NAV = [
 
 const SOCIALS = [
   { Icon: Instagram, href: 'https://www.instagram.com/arkeviontech.official/', label: 'Instagram', color: '#E4405F' },
-  { Icon: Github,    href: 'https://github.com/arkeviontech',                  label: 'GitHub',    color: '#fff' },
   { Icon: Linkedin,  href: 'https://www.linkedin.com/company/arkevion-technology/', label: 'LinkedIn', color: '#0A66C2' },
 ];
 
 const SERVICES = [
   { label: 'Web Development', path: '/services/web' },
   { label: 'Full Stack', path: '/services/fullstack' },
+  { label: 'Mobile Development', path: '/services/mobile-development' },
   { label: 'UI/UX Design', path: '/services/uiux' },
   { label: 'Digital Marketing', path: '/services/digital' },
   { label: 'AI Automation', path: '/services/ai' },
@@ -58,7 +58,7 @@ export default function Footer() {
 
       <div className="container-pad relative z-10">
         {/* Main footer content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 py-16 md:py-20">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 py-16 md:grid-cols-2 md:gap-10 md:py-20 lg:grid-cols-4 lg:gap-12">
           {/* Brand Column */}
           <m.div
             initial={{ opacity: 0, y: 20 }}
@@ -66,9 +66,9 @@ export default function Footer() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="lg:col-span-1"
           >
-            <Link to="/" className="flex items-center gap-3 group mb-4">
+            <Link to="/" className="flex items-center gap-3 group mb-0">
               <img src="/Arkevion_logo.png" alt="Arkevion"
-                className="h-10 w-auto brightness-0 invert" />
+                className="h-24 w-auto brightness-0 invert sm:h-28 lg:h-32" />
               <div className="flex flex-col leading-none">
                 <span className="font-display font-black text-base tracking-tight text-white">
                   AR<span className="text-teal-400">kevion</span>
@@ -78,7 +78,7 @@ export default function Footer() {
                 </span>
               </div>
             </Link>
-            <p className="text-xs text-gray-500 leading-relaxed max-w-xs mb-6">
+            <p className="-mt-4 mb-6 max-w-xs text-xs leading-relaxed text-gray-500 sm:-mt-5 lg:-mt-6">
               Premium digital agency specializing in web development, UI/UX design, AI automation, 
               and digital marketing. We craft digital experiences that drive measurable results.
             </p>
@@ -90,9 +90,9 @@ export default function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="flex items-center justify-center w-8 h-8 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all duration-200 border border-white/5 hover:border-white/10"
+                  className="flex items-center justify-center w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all duration-200 border border-white/5 hover:border-white/10"
                 >
-                  <Icon size={14} />
+                  <Icon size={18} />
                 </ExternalLink>
               ))}
             </div>
@@ -107,7 +107,7 @@ export default function Footer() {
             <h4 className="text-xs font-bold uppercase tracking-[0.15em] text-gray-400 mb-4">
               Services
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-3">
               {SERVICES.map(({ label, path }) => (
                 <li key={label}>
                   <Link
@@ -131,7 +131,7 @@ export default function Footer() {
             <h4 className="text-xs font-bold uppercase tracking-[0.15em] text-gray-400 mb-4">
               Quick Links
             </h4>
-            <ul className="space-y-2.5">
+            <ul className="space-y-3">
               {NAV.map(({ label, path }) => (
                 <li key={label}>
                   <Link
@@ -183,7 +183,7 @@ export default function Footer() {
                   to="/contact"
                   className="inline-flex items-center gap-2 text-xs font-bold text-teal-400 hover:text-teal-300 transition-colors duration-200 bg-teal-500/10 hover:bg-teal-500/20 px-4 py-2 rounded-xl"
                 >
-                  Get in touch <Sparkles size={11} />
+                  Get in touch <ArrowUpRight size={11} />
                 </Link>
               </li>
             </ul>
