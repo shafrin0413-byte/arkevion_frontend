@@ -28,7 +28,7 @@ const A = {
 
   portfolio: 'We have delivered real projects across e-commerce, education, healthcare, and business platforms. Visit our Portfolio page on the website to view our past work and case studies.',
 
-  location: 'We are based in Trichy, Tamil Nadu, India. We work with clients remotely across India and internationally. All communication, meetings, and deliveries are handled online.',
+  location: 'Yes! Arkevion Technology is placed in Trichy (Tiruchirappalli), Tamil Nadu, India. We work with clients remotely across India and internationally. All communication, meetings, and deliveries are handled online.',
 
   payment: 'We accept multiple payment methods including:\n• Bank transfer (NEFT / IMPS / RTGS)\n• UPI (GPay, PhonePe, Paytm)\n• Razorpay / online payment links\n• International payments via wire transfer\n\nPayment is typically split into milestones.',
 
@@ -70,21 +70,11 @@ function findAnswer(input) {
   if (has(q, ['price', 'pricing', 'cost', 'charge', 'fee', 'rate', 'budget', 'quote', 'estimate', 'how much'])) return A.pricing;
   if (has(q, ['package', 'packages', 'plan', 'plans', 'basic', 'standard', 'premium', 'tier']))                  return A.pricing_packages;
   if (has(q, ['timeline', 'how long', 'duration', 'time', 'days', 'weeks', 'delivery time', 'how fast', 'when']))return A.timeline;
-  if (has(q, ['industry', 'industries', 'sector', 'domain', 'field', 'niche', 'type of business', 'work with'])) return A.industries;
-  if (has(q, ['why choose', 'why arkevion', 'why you', 'benefits', 'advantage', 'better', 'best', 'reason']))     return A.why_us;
-  if (has(q, ['portfolio', 'past work', 'previous', 'projects done', 'case study', 'examples', 'show work']))     return A.portfolio;
-  if (has(q, ['location', 'where', 'office', 'based', 'remote', 'city', 'trichy', 'india', 'onsite']))           return A.location;
-  if (has(q, ['payment', 'pay', 'upi', 'bank', 'transfer', 'razorpay', 'gpay', 'phonepay', 'paytm', 'invoice'])) return A.payment;
-  if (has(q, ['refund', 'revision', 'money back', 'cancel', 'policy', 'guarantee', 'changes']))                   return A.refund;
-  if (has(q, ['language', 'languages', 'english', 'tamil', 'communicate', 'speak']))                              return A.languages;
-  if (has(q, ['team', 'members', 'staff', 'employees', 'who works', 'developers', 'designers', 'how many']))      return A.team;
-  if (has(q, ['process', 'steps', 'how do you work', 'workflow', 'methodology', 'approach', 'phases']))          return A.process;
-  if (has(q, ['tech', 'technology', 'stack', 'tools', 'framework', 'language', 'react', 'node', 'django', 'mongodb', 'database', 'cloud', 'aws'])) return A.tech;
-  if (has(q, ['support', 'maintenance', 'after delivery', 'post delivery', 'bug', 'fix', 'update']))             return A.support;
-  if (has(q, ['trust', 'reliable', 'portfolio', 'proof', 'experience', 'msme', 'certified']))                    return A.trust;
   if (has(q, ['internship', 'intern', 'training', 'domain', 'course', 'learn', 'certificate']))                  return A.internship;
+  if (has(q, ['industry', 'industries', 'sector', 'field', 'niche', 'type of business', 'work with']))            return A.industries;
   if (has(q, ['contact', 'phone', 'number', 'whatsapp', 'call', 'email', 'reach', 'get in touch']))              return A.contact;
   if (has(q, ['service', 'solution', 'offer', 'provide', 'web', 'mobile', 'app', 'ui', 'ux', 'design', 'marketing', 'ai', 'automation', 'full stack'])) return A.services;
+  if (has(q, ['where', 'location', 'office', 'based', 'remote', 'city', 'trichy', 'india', 'onsite', 'placed', 'place', 'address', 'situated', 'located', 'tamilnadu', 'tamil nadu', 'tiruchirappalli'])) return A.location;
   if (has(q, ['about', 'arkevion', 'company', 'who are', 'what is', 'tell me', 'mission']))                      return A.company;
 
   return A.fallback;

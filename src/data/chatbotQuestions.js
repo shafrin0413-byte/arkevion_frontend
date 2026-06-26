@@ -17,7 +17,7 @@ export const chatbotQuestions = [
   {
     question: 'Internship domains',
     keywords: ['internship', 'intern', 'training', 'domain', 'course'],
-    answer: 'Our internship domains include Web Development, Full Stack Development, Mobile Development, Digital Marketing, and AI Automation.',
+    answer: 'Our internship domains include Web Development, Full Stack Development, Mobile Application Development, UI/UX Design, Digital Marketing, and AI Automation. Each domain offers hands-on training with real projects, mentorship, and a certificate upon completion.',
   },
   {
     question: 'Contact details',
