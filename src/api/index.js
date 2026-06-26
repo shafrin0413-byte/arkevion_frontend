@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getAccessToken } from '../auth/tokenStorage';
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8000/api',
+  baseURL: 'https://arkevion-backend.onrender.com/api',
   timeout: 10000,
 });
 
