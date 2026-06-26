@@ -190,6 +190,19 @@ def admin_login_api(request):
     return login_for_role(request, User.Role.ADMIN)
 
 
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def logout_api(request):
+    try:
+        refresh_token = request.data.get("refresh")
+        if refresh_token:
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+    except Exception:
+        pass
+    return Response({"detail": "Logged out successfully."}, status=status.HTTP_200_OK)
+
+
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def me_api(request):
@@ -384,3 +397,17 @@ def admin_leave_review_api(request, pk, action):
     leave.review(request.user, LeaveRequest.Status.APPROVED if action == "approve" else LeaveRequest.Status.REJECTED)
     leave.save()
     return Response({"leave": leave_payload(leave)})
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def admin_reset_password_api(request, pk):
+    if not role_allowed(request.user, User.Role.ADMIN):
+        return role_denied_response()
+    student = get_object_or_404(admin_students(request.user), pk=pk)
+    new_password = request.data.get("password")
+    if not new_password or len(new_password) < 6:
+        return Response({"detail": "Password must be at least 6 characters."}, status=400)
+    student.user.set_password(new_password)
+    student.user.save(update_fields=["password"])
+    return Response({"detail": "Password reset successfully."})
