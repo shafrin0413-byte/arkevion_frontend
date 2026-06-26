@@ -1,0 +1,1 @@
+web: gunicorn arkevion_ims.wsgi
