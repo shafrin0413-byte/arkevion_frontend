@@ -16,6 +16,10 @@ import Contact from './pages/Contact';
 import OurClients from './pages/OurClients';
 import ClientDetail from './pages/ClientDetail';
 import ChatbotWidget from './components/ChatbotWidget';
+import LoginPage from './pages/auth/LoginPage';
+import ProtectedRoute from './auth/ProtectedRoute';
+import StudentDashboard from './pages/dashboard/StudentDashboard';
+import AdminDashboard from './pages/dashboard/AdminDashboard';
 
 const WHATSAPP_NUMBER = '918838749824';
 
@@ -164,6 +168,14 @@ export default function App() {
                 <Route path="/contact"      element={<Contact />}      />
                 <Route path="/clients"      element={<OurClients />}   />
                 <Route path="/clients/:slug" element={<ClientDetail />} />
+                <Route path="/student/login" element={<LoginPage role="student" />} />
+                <Route path="/admin/login" element={<LoginPage role="admin" />} />
+                <Route element={<ProtectedRoute role="student" />}>
+                  <Route path="/student/dashboard" element={<StudentDashboard />} />
+                </Route>
+                <Route element={<ProtectedRoute role="admin" />}>
+                  <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                </Route>
                 <Route path="*"             element={<Home />}         />
               </Routes>
             </main>

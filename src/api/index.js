@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getAccessToken } from '../auth/tokenStorage';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8000/api',
@@ -6,10 +7,36 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('access_token');
+  const token = getAccessToken();
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
+
+export const authAPI = {
+  loginStudent: (credentials) => api.post('/auth/student/login/', credentials),
+  loginAdmin: (credentials) => api.post('/auth/admin/login/', credentials),
+  me: () => api.get('/auth/me/'),
+};
+
+export const studentPortalAPI = {
+  getPortal: () => api.get('/student/portal/'),
+  checkIn: () => api.post('/student/check-in/'),
+  checkOut: () => api.post('/student/check-out/'),
+  updateTaskStatus: (id, data) => api.post(`/student/tasks/${id}/status/`, data),
+  submitLeave: (data) => api.post('/student/leave-requests/', data),
+  updateProfile: (data) => api.patch('/student/profile/', data),
+};
+
+export const adminPortalAPI = {
+  getPortal: () => api.get('/admin/portal/'),
+  createStudent: (data) => api.post('/admin/students/', data),
+  updateStudent: (id, data) => api.patch(`/admin/students/${id}/`, data),
+  deleteStudent: (id) => api.delete(`/admin/students/${id}/`),
+  createTask: (data) => api.post('/admin/tasks/', data),
+  updateTask: (id, data) => api.patch(`/admin/tasks/${id}/`, data),
+  deleteTask: (id) => api.delete(`/admin/tasks/${id}/`),
+  reviewLeave: (id, action) => api.post(`/admin/leaves/${id}/${action}/`),
+};
 
 export const servicesAPI = {
   getAll: () => api.get('/services/'),

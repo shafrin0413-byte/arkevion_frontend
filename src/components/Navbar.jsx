@@ -14,16 +14,9 @@ const links = [
   { label: 'Contact', to: '/contact' },
 ];
 
-const configuredInternshipUrl = process.env.REACT_APP_INTERNSHIP_URL?.replace(/\/$/, '');
-const internshipBaseUrl = configuredInternshipUrl || (
-  typeof window !== 'undefined' && window.location.port && window.location.port !== '8000'
-    ? 'http://127.0.0.1:8000'
-    : ''
-);
-
 const internshipLinks = [
-  { label: 'Student', href: `${internshipBaseUrl}/internships/student/login/` },
-  { label: 'Admin', href: `${internshipBaseUrl}/internships/admin/login/` },
+  { label: 'Student', to: '/student/login' },
+  { label: 'Admin', to: '/admin/login' },
 ];
 
 export default function Navbar() {
@@ -127,9 +120,9 @@ export default function Navbar() {
                     className="absolute right-0 top-[calc(100%-2px)] z-50 min-w-40 rounded-2xl border border-teal-50 bg-white p-2 shadow-2xl shadow-teal-950/10"
                   >
                     {internshipLinks.map((item) => (
-                      <a
-                        key={item.href}
-                        href={item.href}
+                      <Link
+                        key={item.to}
+                        to={item.to}
                         onClick={() => {
                           setPortalDropdownOpen(false);
                           setPortalDropdownPinned(false);
@@ -137,7 +130,7 @@ export default function Navbar() {
                         className="block rounded-xl px-4 py-3 text-sm font-semibold text-gray-600 transition hover:bg-teal-50 hover:text-teal-primary"
                       >
                         {item.label}
-                      </a>
+                      </Link>
                     ))}
                   </m.div>
                 )}
@@ -211,13 +204,13 @@ export default function Navbar() {
                   {mobilePortalOpen && (
                     <div className="mt-1 grid gap-1 pl-3">
                       {internshipLinks.map((item) => (
-                        <a
-                          key={item.href}
-                          href={item.href}
+                        <Link
+                          key={item.to}
+                          to={item.to}
                           className="rounded-xl px-4 py-2.5 text-sm font-medium text-gray-600 transition hover:bg-[#EFF9FB] hover:text-teal-primary"
                         >
                           {item.label}
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   )}
