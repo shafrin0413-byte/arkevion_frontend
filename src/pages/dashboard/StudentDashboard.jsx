@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   CheckSquare, Clock, TrendingUp, ChevronRight,
   Timer, Percent, BookOpen, CalendarOff, Coffee,
@@ -32,33 +32,60 @@ function Badge({ value, label }) {
 
 function fmtDate(str) {
   if (!str) return '—';
-  return new Date(str).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  return new Date(str).toLocaleDateString('en-IN', {
+    day: 'numeric', month: 'short', year: 'numeric',
+    timeZone: 'Asia/Kolkata',
+  });
 }
 
-function fmtTime(str) {
-  if (!str) return '—';
-  const [h, m] = str.split(':');
-  const hr = parseInt(h, 10);
-  return `${hr % 12 || 12}:${m} ${hr >= 12 ? 'PM' : 'AM'}`;
+/** Format an ISO timestamp string to IST 12-hour time */
+function fmtTime(isoStr) {
+  if (!isoStr) return '—';
+  return new Date(isoStr).toLocaleTimeString('en-IN', {
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
+    hour12: true, timeZone: 'Asia/Kolkata',
+  });
 }
 
-function useLiveTimer(checkInTime, isActive) {
-  const [elapsed, setElapsed] = useState(0);
-  const ref = useRef(null);
-  useEffect(() => {
-    if (!isActive || !checkInTime) { setElapsed(0); return; }
-    const base = new Date();
-    const [h, m, s] = checkInTime.split(':').map(Number);
-    base.setHours(h, m, s, 0);
-    const tick = () => setElapsed(Math.max(0, Math.floor((Date.now() - base.getTime()) / 1000)));
-    tick();
-    ref.current = setInterval(tick, 1000);
-    return () => clearInterval(ref.current);
-  }, [isActive, checkInTime]);
-  const hh = String(Math.floor(elapsed / 3600)).padStart(2, '0');
-  const mm = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0');
-  const ss = String(elapsed % 60).padStart(2, '0');
+/** Format decimal hours to H h MM m */
+function fmtHours(decimalHours) {
+  if (!decimalHours && decimalHours !== 0) return '—';
+  const total = Math.round(parseFloat(decimalHours) * 3600);
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  if (h === 0) return `${m}m`;
+  return m === 0 ? `${h}h` : `${h}h ${m}m`;
+}
+
+/** Format seconds → HH:MM:SS */
+function fmtElapsed(seconds) {
+  const s = Math.max(0, seconds);
+  const hh = String(Math.floor(s / 3600)).padStart(2, '0');
+  const mm = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
+  const ss = String(s % 60).padStart(2, '0');
   return `${hh}:${mm}:${ss}`;
+}
+
+/**
+ * Live timer — derives elapsed seconds from the stored ISO check-in timestamp.
+ * Survives page refresh because it calculates from the real timestamp, not a counter.
+ */
+function useLiveTimer(checkInIso, isRunning) {
+  const [elapsed, setElapsed] = useState(0);
+  const intervalRef = useRef(null);
+
+  useEffect(() => {
+    clearInterval(intervalRef.current);
+    if (!isRunning || !checkInIso) { setElapsed(0); return; }
+
+    const checkInMs = new Date(checkInIso).getTime();
+    const tick = () => setElapsed(Math.max(0, Math.floor((Date.now() - checkInMs) / 1000)));
+    tick(); // immediate first tick
+    intervalRef.current = setInterval(tick, 1000);
+    return () => clearInterval(intervalRef.current);
+  }, [isRunning, checkInIso]);
+
+  return fmtElapsed(elapsed);
 }
 
 function StatCard({ icon, bg, color, value, label }) {
@@ -87,11 +114,12 @@ export default function StudentDashboard() {
   const [active, setActive]       = useState('dashboard');
   const [data,   setData]         = useState(null);
   const [loading, setLoading]     = useState(true);
+  const [busy,   setBusy]         = useState(false);   // disables buttons during API calls
   const [message, setMessage]     = useState('');
   const [leaveForm, setLeaveForm] = useState({ leave_type: 'sick', start_date: '', end_date: '', reason: '' });
   const [profileForm, setProfileForm] = useState({ full_name: '', email: '', phone: '', college: '' });
 
-  const loadPortal = async () => {
+  const loadPortal = useCallback(async () => {
     const res = await studentPortalAPI.getPortal();
     setData(res.data);
     setProfileForm({
@@ -100,13 +128,19 @@ export default function StudentDashboard() {
       phone:     res.data.student.phone     || '',
       college:   res.data.student.college   || '',
     });
-  };
+  }, []);
 
-  useEffect(() => { loadPortal().finally(() => setLoading(false)); }, []);
+  useEffect(() => { loadPortal().finally(() => setLoading(false)); }, [loadPortal]);
 
-  const att         = data?.today_attendance ?? {};
-  const isCheckedIn = att.status === 'present' && att.check_in_time && !att.check_out_time;
-  const timer       = useLiveTimer(att.check_in_time, isCheckedIn);
+  /* Derive attendance state from backend flag — not from status field.
+     is_running = checked in today and NOT yet checked out.           */
+  const att        = data?.today_attendance ?? {};
+  const isRunning  = Boolean(att.is_running);          // true = session active
+  const hasCheckedOut = Boolean(att.check_in_time && att.check_out_time);
+
+  /* Timer calculates from the ISO check-in timestamp, so it survives refresh */
+  const timer = useLiveTimer(att.check_in_time, isRunning);
+
   const currentTask = useMemo(
     () => data?.tasks?.find(t => t.status !== 'complete') || data?.tasks?.[0],
     [data]
@@ -119,12 +153,25 @@ export default function StudentDashboard() {
   const workedDec    = parseFloat(att.worked_hours) || 0;
   const dailyPct     = Math.min(100, Math.round((workedDec / dailyGoalHrs) * 100));
 
-  const runAction = async (action, success) => {
+  const showMsg = (msg) => {
+    setMessage(msg);
+    setTimeout(() => setMessage(''), 4000);
+  };
+
+  const runAction = async (action, successMsg) => {
+    if (busy) return;
+    setBusy(true);
     setMessage('');
-    await action();
-    await loadPortal();
-    setMessage(success);
-    setTimeout(() => setMessage(''), 3000);
+    try {
+      await action();
+      await loadPortal();
+      showMsg(successMsg);
+    } catch (err) {
+      const detail = err?.response?.data?.detail || 'Something went wrong. Please try again.';
+      showMsg(detail);
+    } finally {
+      setBusy(false);
+    }
   };
 
   if (loading) {
@@ -166,7 +213,7 @@ export default function StudentDashboard() {
               <StatCard icon={<TrendingUp size={18}/>}  bg="#fef9c3" color="#854d0e"
                 value={data.summary.progress_tasks}   label="In Progress" />
               <StatCard icon={<Timer size={18}/>}        bg="#ede9fe" color="#5b21b6"
-                value={att.worked_hours || '0h'}       label="Hours Today" />
+                value={isRunning ? timer : fmtHours(att.worked_hours)} label="Hours Today" />
             </div>
 
             <div className="mob-card">
@@ -204,7 +251,7 @@ export default function StudentDashboard() {
               <div className="mob-att-row">
                 <div className="mob-att-stat">
                   <span className="mob-att-stat__icon"><Timer size={16}/></span>
-                  <span className="mob-att-stat__val">{att.worked_hours || '—'}</span>
+                  <span className="mob-att-stat__val">{isRunning ? timer : fmtHours(att.worked_hours)}</span>
                   <span className="mob-att-stat__lbl">Worked Today</span>
                 </div>
                 <div className="mob-att-stat">
@@ -242,8 +289,8 @@ export default function StudentDashboard() {
               <Badge value={att.status} label={att.status_display} />
             </div>
 
-            <div className={`mob-card mob-timer-card${isCheckedIn ? ' mob-timer-card--active' : ''}`}>
-              {isCheckedIn ? (
+            <div className={`mob-card mob-timer-card${isRunning ? ' mob-timer-card--active' : ''}`}>
+              {isRunning ? (
                 <>
                   <p className="mob-timer-label">Working Since</p>
                   <div className="mob-timer-display">{timer}</div>
@@ -256,24 +303,37 @@ export default function StudentDashboard() {
                     <span className="mob-progress-pct">{dailyPct}%</span>
                   </div>
                   <div className="mob-btn-row">
-                    <button className="mob-btn mob-btn--outline"
-                      onClick={() => runAction(studentPortalAPI.checkOut, 'Break started.')}>
-                      <Coffee size={16}/> Break
-                    </button>
-                    <button className="mob-btn mob-btn--danger"
-                      onClick={() => runAction(studentPortalAPI.checkOut, 'Checked out successfully.')}>
-                      Check Out
+                    <button
+                      className="mob-btn mob-btn--danger"
+                      disabled={busy}
+                      onClick={() => runAction(studentPortalAPI.checkOut, 'Checked out successfully.')}
+                    >
+                      {busy ? 'Please wait…' : 'Check Out'}
                     </button>
                   </div>
                 </>
               ) : (
                 <>
-                  <p className="mob-timer-label">Not checked in yet</p>
-                  <div className="mob-timer-display mob-timer-display--idle">00:00:00</div>
-                  <button className="mob-btn mob-btn--primary mob-btn--full"
-                    onClick={() => runAction(studentPortalAPI.checkIn, 'Checked in successfully.')}>
-                    Check In
-                  </button>
+                  <p className="mob-timer-label">
+                    {hasCheckedOut ? 'Session complete' : 'Not checked in yet'}
+                  </p>
+                  <div className="mob-timer-display mob-timer-display--idle">
+                    {hasCheckedOut ? fmtElapsed(Math.round(workedDec * 3600)) : '00:00:00'}
+                  </div>
+                  {hasCheckedOut ? (
+                    <p className="mob-timer-since">
+                      {fmtTime(att.check_in_time)} → {fmtTime(att.check_out_time)}
+                    </p>
+                  ) : null}
+                  {!hasCheckedOut && (
+                    <button
+                      className="mob-btn mob-btn--primary mob-btn--full"
+                      disabled={busy}
+                      onClick={() => runAction(studentPortalAPI.checkIn, 'Checked in successfully.')}
+                    >
+                      {busy ? 'Please wait…' : 'Check In'}
+                    </button>
+                  )}
                 </>
               )}
             </div>
@@ -284,13 +344,16 @@ export default function StudentDashboard() {
                 <SessionItem label="Date"        value={fmtDate(att.date)} />
                 <SessionItem label="Check In"    value={fmtTime(att.check_in_time)} />
                 <SessionItem label="Check Out"   value={fmtTime(att.check_out_time)} />
-                <SessionItem label="Total Hours" value={att.worked_hours || '—'} />
+                <SessionItem
+                  label="Total Hours"
+                  value={isRunning ? timer : (att.worked_hours ? fmtHours(att.worked_hours) : '—')}
+                />
               </div>
             </div>
 
             <div className="mob-stats mob-stats--2">
               <StatCard icon={<Timer size={18}/>}   bg="#e0fdf4" color="#0f766e"
-                value={att.worked_hours || '0h'} label="Hours Today" />
+                value={isRunning ? timer : fmtHours(att.worked_hours)} label="Hours Today" />
               <StatCard icon={<Percent size={18}/>} bg="#fef9c3" color="#854d0e"
                 value={`${data.attendance_percentage}%`} label="Attendance %" />
             </div>
@@ -305,7 +368,7 @@ export default function StudentDashboard() {
                       <div className="mob-history-times">
                         <span>In: {fmtTime(row.check_in_time)}</span>
                         <span>Out: {fmtTime(row.check_out_time)}</span>
-                        <span>{row.worked_hours}</span>
+                        <span>{fmtHours(row.worked_hours)}</span>
                       </div>
                       <Badge value={row.status} label={row.status_display} />
                     </div>
@@ -381,7 +444,9 @@ export default function StudentDashboard() {
                 <textarea className="mob-input" rows="3" value={leaveForm.reason}
                   onChange={e => setLeaveForm({ ...leaveForm, reason: e.target.value })} required />
               </label>
-              <button className="mob-btn mob-btn--primary mob-btn--full" type="submit">Submit Request</button>
+              <button className="mob-btn mob-btn--primary mob-btn--full" type="submit" disabled={busy}>
+                {busy ? 'Submitting…' : 'Submit Request'}
+              </button>
             </form>
             <div className="mob-card">
               <span className="mob-card__title">My Requests</span>
@@ -416,7 +481,9 @@ export default function StudentDashboard() {
                     onChange={e => setProfileForm({ ...profileForm, [k]: e.target.value })} />
                 </label>
               ))}
-              <button className="mob-btn mob-btn--primary mob-btn--full" type="submit">Save Profile</button>
+              <button className="mob-btn mob-btn--primary mob-btn--full" type="submit" disabled={busy}>
+                {busy ? 'Saving…' : 'Save Profile'}
+              </button>
             </form>
             <div className="mob-card">
               <span className="mob-card__title">Internship Details</span>
@@ -443,6 +510,15 @@ export default function StudentDashboard() {
                 value={data.summary.progress_tasks} label="In Progress" />
               <StatCard icon={<CalendarOff size={18}/>} bg="#fee2e2" color="#991b1b"
                 value={data.summary.hold_tasks}     label="On Hold" />
+            </div>
+            <div className="mob-card">
+              <span className="mob-card__title">Attendance Summary</span>
+              <div className="mob-session-grid">
+                <SessionItem label="Today Status"  value={att.status_display || '—'} />
+                <SessionItem label="Attendance %"  value={`${data.attendance_percentage}%`} />
+                <SessionItem label="Hours Today"   value={isRunning ? timer : fmtHours(att.worked_hours)} />
+                <SessionItem label="Tasks Done"    value={`${doneTasks} / ${totalTasks}`} />
+              </div>
             </div>
             <div className="mob-card">
               <span className="mob-card__title">Summary</span>

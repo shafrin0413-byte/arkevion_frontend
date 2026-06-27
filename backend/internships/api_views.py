@@ -33,13 +33,21 @@ def role_denied_response():
 
 
 def attendance_payload(record):
+    def fmt_ist(dt):
+        """Return ISO-8601 string in IST (+05:30) or None."""
+        if not dt:
+            return None
+        import pytz
+        ist = pytz.timezone("Asia/Kolkata")
+        return dt.astimezone(ist).isoformat()
+
     return {
         "id": record.id,
         "student_id": record.student_id,
         "student_name": record.student.user.full_name,
-        "date": record.date,
-        "check_in_time": record.check_in_time,
-        "check_out_time": record.check_out_time,
+        "date": str(record.date),
+        "check_in_time": fmt_ist(record.check_in_time),
+        "check_out_time": fmt_ist(record.check_out_time),
         "worked_hours": record.worked_hours,
         "status": record.status,
         "status_display": record.get_status_display(),
@@ -223,11 +231,18 @@ def student_check_in_api(request):
     if not role_allowed(request.user, User.Role.STUDENT):
         return role_denied_response()
     student = get_object_or_404(Student, user=request.user)
-    attendance, _ = Attendance.objects.get_or_create(student=student, date=timezone.localdate())
-    if not attendance.check_in_time or attendance.check_out_time:
-        attendance.check_in_time = timezone.now()
-        attendance.check_out_time = None
-        attendance.save()
+    attendance, created = Attendance.objects.get_or_create(student=student, date=timezone.localdate())
+    # Block duplicate check-in: already checked in and not yet checked out
+    if attendance.check_in_time and not attendance.check_out_time:
+        return Response(
+            {"detail": "You have already checked in today.", "today_attendance": attendance_payload(attendance)},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    attendance.check_in_time = timezone.now()
+    attendance.check_out_time = None
+    attendance.worked_duration = __import__('datetime').timedelta(0)
+    attendance.status = Attendance.Status.ABSENT
+    attendance.save()
     return Response({"today_attendance": attendance_payload(attendance)})
 
 
@@ -238,6 +253,13 @@ def student_check_out_api(request):
         return role_denied_response()
     student = get_object_or_404(Student, user=request.user)
     attendance = get_object_or_404(Attendance, student=student, date=timezone.localdate())
+    if not attendance.check_in_time:
+        return Response({"detail": "You have not checked in yet."}, status=status.HTTP_400_BAD_REQUEST)
+    if attendance.check_out_time:
+        return Response(
+            {"detail": "You have already checked out today.", "today_attendance": attendance_payload(attendance)},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
     attendance.close_session()
     attendance.save()
     return Response({"today_attendance": attendance_payload(attendance)})

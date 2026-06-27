@@ -149,9 +149,9 @@ class Attendance(models.Model):
 
     def update_status(self):
         hours = self.worked_hours
-        if hours >= 4:
+        if hours >= 2.5:
             self.status = self.Status.PRESENT
-        elif hours >= 2:
+        elif hours >= 1.0:
             self.status = self.Status.HALF_DAY
         else:
             self.status = self.Status.ABSENT
